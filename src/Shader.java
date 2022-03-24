@@ -12,6 +12,8 @@ import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
+//I hate this code
+
 public class Shader {
 
     final String vertexShaderSource = "#version 330 core\n" +
@@ -50,7 +52,7 @@ public class Shader {
     }
 
     int shaderProgram = glCreateProgram();
-    void linkShaders(){
+    void initShaders(){
         compileVertexShader();
         compileFragmentShader();
 

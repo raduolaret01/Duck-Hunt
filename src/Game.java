@@ -15,6 +15,7 @@ public class Game {
 
     // The window handle
     private long window;
+    private Renderer renderContext = new Renderer();
 
     public void run() {
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
@@ -77,11 +78,17 @@ public class Game {
 
         // Make the OpenGL context current
         glfwMakeContextCurrent(window);
+        GL.createCapabilities();
         // Enable v-sync
         glfwSwapInterval(1);
 
         // Make the window visible
         glfwShowWindow(window);
+
+        Shader shader = new Shader();
+        shader.initShaders();
+
+        renderContext.Init();
     }
 
     private void loop() {
@@ -90,7 +97,6 @@ public class Game {
         // LWJGL detects the context that is current in the current thread,
         // creates the GLCapabilities instance and makes the OpenGL
         // bindings available for use.
-        GL.createCapabilities();
 
         // Set the clear color
         glClearColor(1.0f, 1.0f, 0.0f, 1.0f);
@@ -99,6 +105,8 @@ public class Game {
         // the window or has pressed the ESCAPE key.
         while ( !glfwWindowShouldClose(window) ) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
+
+            renderContext.Draw();
 
             glfwSwapBuffers(window); // swap the color buffers
 
