@@ -99,7 +99,7 @@ public class Game {
         // bindings available for use.
 
         // Set the clear color
-        glClearColor(1.0f, 1.0f, 0.0f, 1.0f);
+        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.

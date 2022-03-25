@@ -17,10 +17,10 @@ import static org.lwjgl.system.MemoryUtil.*;
 public class Shader {
 
     final String vertexShaderSource = "#version 330 core\n" +
-            "layout (location = 0) in vec3 aPos;\n" +
+            "layout (location = 0) in vec2 aPos;\n" +
             "void main()\n" +
             "{\n" +
-            "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n" +
+            "   gl_Position = vec4(aPos.x, aPos.y, 0.0, 1.0);\n" +
             "}\0";
     int vertexShader = 0;
     void compileVertexShader(){
