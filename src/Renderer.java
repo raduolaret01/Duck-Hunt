@@ -3,6 +3,7 @@ import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 
+import java.io.IOException;
 import java.nio.*;
 
 import static org.lwjgl.glfw.Callbacks.*;
@@ -13,6 +14,7 @@ import static org.lwjgl.system.MemoryUtil.*;
 
 
 public class Renderer {
+    Shader shader = null;
     float[] vertices = {
             -0.5f, -0.5f,
             0.5f, -0.5f,
@@ -25,6 +27,13 @@ public class Renderer {
     };
     int VBO, VAO, EBO;
     void Init(){
+
+        try {
+            shader = new Shader();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         VBO = glGenBuffers();
         EBO = glGenBuffers();
         VAO = glGenVertexArrays();

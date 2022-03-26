@@ -3,6 +3,7 @@ import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 
+import java.io.IOException;
 import java.nio.*;
 
 import static org.lwjgl.glfw.Callbacks.*;
@@ -44,10 +45,10 @@ public class Game {
         // Configure GLFW
         glfwDefaultWindowHints(); // optional, the current window hints are already the default
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // the window will stay hidden after creation
-        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
+        //glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
 
         // Create the window
-        window = glfwCreateWindow(300, 300, "Hello World!", NULL, NULL);
+        window = glfwCreateWindow(1920, 1080, "Hello World!", glfwGetPrimaryMonitor(), NULL);
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 
@@ -69,11 +70,11 @@ public class Game {
             GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
             // Center the window
-            glfwSetWindowPos(
-                    window,
-                    (vidmode.width() - pWidth.get(0)) / 2,
-                    (vidmode.height() - pHeight.get(0)) / 2
-            );
+//            glfwSetWindowPos(
+//                    window,
+//                    (vidmode.width() - pWidth.get(0)) / 2,
+//                    (vidmode.height() - pHeight.get(0)) / 2
+//            );
         } // the stack frame is popped automatically
 
         // Make the OpenGL context current
@@ -85,8 +86,7 @@ public class Game {
         // Make the window visible
         glfwShowWindow(window);
 
-        Shader shader = new Shader();
-        shader.initShaders();
+
 
         renderContext.Init();
     }
