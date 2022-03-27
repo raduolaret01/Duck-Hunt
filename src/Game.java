@@ -8,7 +8,7 @@ import java.nio.*;
 
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL33.*;
 import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
@@ -16,7 +16,8 @@ public class Game {
 
     // The window handle
     private long window;
-    private Renderer renderContext = new Renderer();
+    private Renderer renderContext = Renderer.getInstance();
+    private GameObject testObject;
 
     public void run() {
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
@@ -42,13 +43,23 @@ public class Game {
         if ( !glfwInit() )
             throw new IllegalStateException("Unable to initialize GLFW");
 
+        GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+
         // Configure GLFW
         glfwDefaultWindowHints(); // optional, the current window hints are already the default
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // the window will stay hidden after creation
+        glfwWindowHint(GLFW_RED_BITS, vidmode.redBits());
+        glfwWindowHint(GLFW_GREEN_BITS, vidmode.greenBits());
+        glfwWindowHint(GLFW_BLUE_BITS, vidmode.blueBits());
+        glfwWindowHint(GLFW_REFRESH_RATE, vidmode.refreshRate());
         //glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
 
         // Create the window
-        window = glfwCreateWindow(1920, 1080, "Hello World!", glfwGetPrimaryMonitor(), NULL);
+        window = glfwCreateWindow(vidmode.width(), vidmode.height(), "Hello World!", NULL, NULL);
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 
@@ -58,37 +69,25 @@ public class Game {
                 glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
         });
 
-        // Get the thread stack and push a new frame
-        try ( MemoryStack stack = stackPush() ) {
-            IntBuffer pWidth = stack.mallocInt(1); // int*
-            IntBuffer pHeight = stack.mallocInt(1); // int*
-
-            // Get the window size passed to glfwCreateWindow
-            glfwGetWindowSize(window, pWidth, pHeight);
-
-            // Get the resolution of the primary monitor
-            GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-
-            // Center the window
-//            glfwSetWindowPos(
-//                    window,
-//                    (vidmode.width() - pWidth.get(0)) / 2,
-//                    (vidmode.height() - pHeight.get(0)) / 2
-//            );
-        } // the stack frame is popped automatically
-
         // Make the OpenGL context current
         glfwMakeContextCurrent(window);
         GL.createCapabilities();
         // Enable v-sync
         glfwSwapInterval(1);
+        // Enable transparency
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         // Make the window visible
         glfwShowWindow(window);
 
+        renderContext.Init(vidmode.width(), vidmode.height());
 
-
-        renderContext.Init();
+        testObject = new GameObject(0);
+        testObject.posX = 960;
+        testObject.posY = 540;
+        testObject.width = 680;
+        testObject.height = 340;
     }
 
     private void loop() {
@@ -106,7 +105,7 @@ public class Game {
         while ( !glfwWindowShouldClose(window) ) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
-            renderContext.Draw();
+            renderContext.DrawObject(testObject);
 
             glfwSwapBuffers(window); // swap the color buffers
 
