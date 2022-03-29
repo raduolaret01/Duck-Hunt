@@ -40,8 +40,8 @@ public class TextureAtlas {
     public float[] normalizeCoords(Texture tex){
         float[] temp = {
                 (float) (tex.x)/duckW, (float) (tex.y)/duckH,
-                (float) (tex.x)/duckW, (float) (tex.y+tex.h)/duckH,
                 (float) (tex.x+tex.w)/duckW, (float) (tex.y)/duckH,
+                (float) (tex.x)/duckW, (float) (tex.y+tex.h)/duckH,
                 (float) (tex.x+tex.w)/duckW, (float) (tex.y+tex.h)/duckH
         };
         return temp;

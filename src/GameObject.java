@@ -3,14 +3,18 @@ import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 
 
-public class GameObject {
-    protected int posX, posY, width, height, textureID;
+public abstract class GameObject {
+    protected int posX, posY, width, height, texID;
 
-    GameObject(int texID){
-        textureID = texID;
+    GameObject(){ };
+
+    GameObject(int textureID, int x, int y, int w, int h){
+        texID = textureID;
+        posX = x;
+        posY = y;
+        width = w;
+        height = h;
     }
 
-    public void Draw(){
-
-    }
+    public abstract void update();
 }

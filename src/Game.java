@@ -17,7 +17,7 @@ public class Game {
     // The window handle
     private long window;
     private Renderer renderContext = Renderer.getInstance();
-    private GameObject testObject;
+    private GameObject testDuck;
 
     public void run() {
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
@@ -47,7 +47,7 @@ public class Game {
 
         // Configure GLFW
         glfwDefaultWindowHints(); // optional, the current window hints are already the default
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);//Set OpenGL version
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
@@ -83,11 +83,8 @@ public class Game {
 
         renderContext.Init(vidmode.width(), vidmode.height());
 
-        testObject = new GameObject(0);
-        testObject.posX = 960;
-        testObject.posY = 540;
-        testObject.width = 680;
-        testObject.height = 340;
+        testDuck = new Duck();
+        Timer.startTime();
     }
 
     private void loop() {
@@ -103,9 +100,12 @@ public class Game {
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
         while ( !glfwWindowShouldClose(window) ) {
+            Timer.setDeltaTime();
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
-            renderContext.DrawObject(testObject);
+            testDuck.update();
+
+            renderContext.DrawObject(testDuck);
 
             glfwSwapBuffers(window); // swap the color buffers
 
