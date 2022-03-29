@@ -17,7 +17,7 @@ public class Game {
     // The window handle
     private long window;
     private Renderer renderContext = Renderer.getInstance();
-    private GameObject testDuck;
+    private GameObject testDuck1, testDuck2, testDuck3;
 
     public void run() {
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
@@ -83,7 +83,9 @@ public class Game {
 
         renderContext.Init(vidmode.width(), vidmode.height());
 
-        testDuck = new Duck();
+        testDuck1 = new Duck();
+        testDuck2 = new Duck();
+        testDuck3 = new Duck();
         Timer.startTime();
     }
 
@@ -103,9 +105,13 @@ public class Game {
             Timer.setDeltaTime();
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
-            testDuck.update();
+            testDuck1.update();
+            testDuck2.update();
+            testDuck3.update();
 
-            renderContext.DrawObject(testDuck);
+            renderContext.DrawObject(testDuck1);
+            renderContext.DrawObject(testDuck2);
+            renderContext.DrawObject(testDuck3);
 
             glfwSwapBuffers(window); // swap the color buffers
 

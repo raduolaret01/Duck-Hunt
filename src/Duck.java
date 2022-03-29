@@ -131,7 +131,7 @@ public class Duck extends GameObject{
             default:
                 throw new IllegalStateException("Invalid duck movement direction!");
         }
-        System.out.println(posX + " " + posY + " " + direction + " " + slope);
+        //System.out.println(posX + " " + posY + " " + direction + " " + slope);
 
         if(posX < 60 || posX > 1758 || posY < 60 || posY > 918 ){
             updateMovement();
