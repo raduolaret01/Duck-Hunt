@@ -11,11 +11,9 @@ import java.nio.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import static org.lwjgl.opengl.GL20.*;
-import static org.lwjgl.system.MemoryStack.*;
-import static org.lwjgl.system.MemoryUtil.*;
-
+import static org.lwjgl.opengl.GL33.*;
 //I hate this code
+//Update: I hate it less
 
 public class Shader {
 

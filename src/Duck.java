@@ -1,3 +1,4 @@
+import java.sql.Time;
 import java.util.BitSet;
 
 public class Duck extends GameObject{
@@ -5,23 +6,31 @@ public class Duck extends GameObject{
     private int direction;
     //Slope of movement
     private double slope;
-    //Speed of movement ( between 10 and 20 pixels/sec )
+    //Speed of movement ( between 0.25 and 0.5 pixels/ms )
     private double speed;
-    private int randomUpdateCoolDown;
+    private int updateCoolDown;
+    private boolean isDead = false;
 
     public Duck(){
         //Starting x position : 480 + rand*960
         //Starting y position : 1018
-        super(0,(int)(480 + Math.random() * 960),1018,102,102);
+        super(0, (int)(480 + Math.random() * 960),1018,102,102);
     }
 
-    public void updateMovement(){
-        randomUpdateCoolDown = 0;
+    private void updateMovement(){
+        updateCoolDown = 0;
+        if(isDead){
+            direction = 1;
+            speed = 0.75d;
+            slope = 0d;
+            return;
+        }
+        speed = 0.25d + Math.random() * 0.25d;
         //Quadrants of cartesian coordonate system
         BitSet quadrants = new BitSet(4);
         quadrants.set(0,4);
         //If the duck is too close to the edge of the screen, it will select an opposite direction
-        if(posX < 100){ // 20 pixel margin in case of random update sounds good
+        if(posX < 100){ // 100 pixel margin in case of random update sounds good
             quadrants.clear(2);
             quadrants.clear(3);
         }
@@ -106,12 +115,14 @@ public class Duck extends GameObject{
             default:
                 throw new IllegalStateException("Duck movement update failed! Invalid direction found!");
         }
-        speed = 0.25d + Math.random() * 0.25d;
     }
 
     public void update(){
         int dT = Timer.getDeltaTime(), dPos1 = (int)(speed * dT), dPos2 = (int)(dPos1 * slope);
         switch (direction){
+            case -1:
+                updateCoolDown += Timer.getDeltaTime();
+                break;
             case 0:
                 posX += dPos1;
                 posY += dPos2;
@@ -132,19 +143,31 @@ public class Duck extends GameObject{
                 throw new IllegalStateException("Invalid duck movement direction!");
         }
         //System.out.println(posX + " " + posY + " " + direction + " " + slope);
+        if(isDead){
+            if(updateCoolDown >= 1000){
+                updateMovement();
+            }
+            return;
+        }
 
         if(posX < 60 || posX > 1758 || posY < 60 || posY > 918 ){
             updateMovement();
         }
         int chance = (int)(Math.random() * 100);
-        randomUpdateCoolDown += Timer.getDeltaTime();
-        if(randomUpdateCoolDown < 250){
+        updateCoolDown += Timer.getDeltaTime();
+        if(updateCoolDown < 250){
             return;
         }
         if(chance <= 2){
             updateMovement();
         }
 
+    }
+
+    public void kill(){
+        isDead = true;
+        direction = -1;
+        speed = 0.5f;
     }
 
 }

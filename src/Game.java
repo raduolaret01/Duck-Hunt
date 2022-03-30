@@ -17,7 +17,8 @@ public class Game {
     // The window handle
     private long window;
     private Renderer renderContext = Renderer.getInstance();
-    private GameObject testDuck1, testDuck2, testDuck3;
+    private Cursor pointer = Cursor.getInstance();
+    private Duck testDuck[];
 
     public void run() {
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
@@ -69,6 +70,22 @@ public class Game {
                 glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
         });
 
+        //Cursor position callback (custom cursor object)
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+        glfwSetCursorPosCallback(window, (window, xpos, ypos) -> {
+            pointer.update(xpos, ypos);
+        });
+
+        glfwSetMouseButtonCallback(window, (window, button, action, mods) ->{
+            if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS){
+                for(Duck ducky : testDuck){
+                    if(Math.abs(pointer.posX - (ducky.posX + ducky.width / 2)) < 77 && Math.abs(pointer.posY - (ducky.posY + ducky.height / 2)) < 77){
+                        ducky.kill();
+                    }
+                }
+            }
+        });
+
         // Make the OpenGL context current
         glfwMakeContextCurrent(window);
         GL.createCapabilities();
@@ -83,9 +100,10 @@ public class Game {
 
         renderContext.Init(vidmode.width(), vidmode.height());
 
-        testDuck1 = new Duck();
-        testDuck2 = new Duck();
-        testDuck3 = new Duck();
+        testDuck = new Duck[5];
+        for(int i = 0; i < 5; ++i){
+            testDuck[i] = new Duck();
+        }
         Timer.startTime();
     }
 
@@ -97,7 +115,7 @@ public class Game {
         // bindings available for use.
 
         // Set the clear color
-        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+        glClearColor(0.2f, 0.5f, 0.2f, 1.0f);
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
@@ -105,13 +123,18 @@ public class Game {
             Timer.setDeltaTime();
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
-            testDuck1.update();
-            testDuck2.update();
-            testDuck3.update();
+            for(int i = 0; i < 5; ++i){
+                testDuck[i].update();
+                renderContext.DrawObject(testDuck[i]);
+                if(testDuck[i].posY > 1200){
+                    testDuck[i] = new Duck();
+                }
+            }
 
-            renderContext.DrawObject(testDuck1);
-            renderContext.DrawObject(testDuck2);
-            renderContext.DrawObject(testDuck3);
+            for(int i = 0; i < 5; ++i){
+            }
+
+            renderContext.DrawObject(pointer);
 
             glfwSwapBuffers(window); // swap the color buffers
 
