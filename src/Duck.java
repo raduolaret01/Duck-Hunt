@@ -20,6 +20,7 @@ public class Duck extends GameObject{
     private void updateMovement(){
         updateCoolDown = 0;
         if(isDead){
+            texID = 2;
             direction = 1;
             speed = 0.75d;
             slope = 0d;
@@ -168,6 +169,7 @@ public class Duck extends GameObject{
         isDead = true;
         direction = -1;
         speed = 0.5f;
+        texID = 1;
     }
 
 }

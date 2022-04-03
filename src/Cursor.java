@@ -12,7 +12,7 @@ public class Cursor extends GameObject{
         return instance;
     }
     private Cursor(){
-        super(0, 1920/2, 1080/2, 50,50);
+        super(3, 1920/2, 1080/2, 50,50);
     }
 
     public void update() { }

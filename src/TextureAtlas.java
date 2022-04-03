@@ -23,11 +23,14 @@ public class TextureAtlas {
     public void testLoad(){
         Atlas = new Texture[5];
         Atlas[0] = new Texture(1,1,34,34);
+        Atlas[1] = new Texture(36, 1, 34, 34);
+        Atlas[2] = new Texture(71, 1, 34, 34);
+        Atlas[3] = new Texture(1, 37, 7, 7);
         try (MemoryStack stack = stackPush()) {
             IntBuffer width = stack.callocInt(1);
             IntBuffer height = stack.callocInt(1);
             IntBuffer channels = stack.callocInt(1);
-            duck = STBImage.stbi_load("rsc/textures/Duck Spritesheet WIP.png", width, height, channels, 4);
+            duck = STBImage.stbi_load("rsc/textures/Untitled.png", width, height, channels, 4);
             if(duck == null){
                 System.err.println("Error loading Image data!");
             }
