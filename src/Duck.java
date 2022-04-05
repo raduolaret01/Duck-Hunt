@@ -4,15 +4,7 @@ import java.util.BitSet;
 // TODO: replace hard-coded references to window size with relative window dimensions
 // Can "juggle" already dead ducks: Bug or Feature?
 
-public class Duck extends GameObject{
-    //Main direction of movement: 0 = right, 1 = down, 2 = left, 3 = up
-    private int direction;
-    //Slope of movement
-    private double slope;
-    //Speed of movement ( between 0.25 and 0.5 pixels/ms )
-    private double speed;
-    private int updateCoolDown;
-    private boolean isDead = false;
+public class Duck extends Enemy{
 
     public Duck(){
         //Starting x position : 480 + rand*960
@@ -20,7 +12,7 @@ public class Duck extends GameObject{
         super(0, (int)(480 + Math.random() * 960),1018,102,102);
     }
 
-    private void updateMovement(){
+    protected void updateMovement(){
         updateCoolDown = 0;
         if(isDead){
             texID = 2;
