@@ -1,17 +1,10 @@
 
-import org.lwjgl.*;
-import org.lwjgl.glfw.*;
-import org.lwjgl.opengl.*;
-import org.lwjgl.system.*;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.nio.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static org.lwjgl.opengl.GL33.*;
+
 //I hate this code
 //Update: I hate it less
 

@@ -1,6 +1,4 @@
 import org.lwjgl.stb.*;
-import org.lwjgl.*;
-import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 
 import java.nio.ByteBuffer;

@@ -1,9 +1,5 @@
-import org.lwjgl.*;
-import org.lwjgl.opengl.*;
-import org.lwjgl.system.*;
 
 import java.io.IOException;
-import java.nio.*;
 import org.lwjgl.stb.*;
 
 import static org.lwjgl.opengl.GL33.*;
@@ -16,6 +12,7 @@ public class Renderer {
     public static Renderer getInstance() {
         return instance;
     }
+
     Shader shader = null;
     TextureAtlas TexAt = null;
     int screenW, screenH;
@@ -26,7 +23,7 @@ public class Renderer {
             1, 2, 3
     };
     int VBO, VAO, EBO, texture;
-    void Init(int scW, int scH){
+    void init(int scW, int scH){
 
         try {
             shader = new Shader();
@@ -83,6 +80,7 @@ public class Renderer {
         float[] objV, texC;
         objV = normalizeObjectCoords(x);
         texC = TexAt.normalizeCoords(TexAt.getAtlas()[x.texID]);
+        //Build VBO
         for(int i = 0,j = 0;i<8 && j<16;i+=2,j+=4){
             vertices[j] = objV[i];
             vertices[j+1] = objV[i+1];
@@ -90,7 +88,7 @@ public class Renderer {
             vertices[j+3] = texC[i+1];
         }
 
-        //Buffer Data Streaming through re-specification
+        //Buffer Data Streaming through re-specification (planned) (MAYBE)
         glBufferData(GL_ARRAY_BUFFER, vertices, GL_DYNAMIC_DRAW);
 
         glBindVertexArray(VAO);

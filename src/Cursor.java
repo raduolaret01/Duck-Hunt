@@ -1,9 +1,4 @@
 
-import org.lwjgl.glfw.*;
-
-import static org.lwjgl.glfw.Callbacks.*;
-import static org.lwjgl.glfw.GLFW.*;
-
 public class Cursor extends GameObject{
 
     private static Cursor instance = new Cursor();

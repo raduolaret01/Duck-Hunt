@@ -1,16 +1,14 @@
-import org.lwjgl.*;
+
+import org.lwjgl.Version;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
-import org.lwjgl.system.*;
 
 import java.io.IOException;
-import java.nio.*;
 
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL33.*;
-import static org.lwjgl.system.MemoryStack.*;
-import static org.lwjgl.system.MemoryUtil.*;
+import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Application {
 
@@ -58,24 +56,22 @@ public class Application {
         glfwWindowHint(GLFW_GREEN_BITS, vidmode.greenBits());
         glfwWindowHint(GLFW_BLUE_BITS, vidmode.blueBits());
         glfwWindowHint(GLFW_REFRESH_RATE, vidmode.refreshRate());
-        //glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
+        //glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will NOT be resizable
 
         // Create the window
         window = glfwCreateWindow(vidmode.width(), vidmode.height(), "Hello World!", NULL, NULL);
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 
-        // Setup a key callback. It will be called every time a key is pressed, repeated or released.
+        // Setup key callbacks.
         glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
             if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE ) {
                 glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
             }
             if( key == GLFW_KEY_M && action == GLFW_RELEASE ) {
-                loadGame();
+                loadGame(); // Enter Game if M is pressed
             }
         });
-
-
 
         //Cursor position callback (custom cursor object)
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
@@ -83,7 +79,6 @@ public class Application {
             pointer.update(xpos, ypos);
         });
         game.setWindow(window);
-
 
         // Make the OpenGL context current
         glfwMakeContextCurrent(window);
@@ -97,18 +92,12 @@ public class Application {
         // Make the window visible
         glfwShowWindow(window);
 
-        renderContext.Init(vidmode.width(), vidmode.height());
+        renderContext.init(vidmode.width(), vidmode.height());
 
         Timer.startTime();
     }
 
     private void loop() {
-        // This line is critical for LWJGL's interoperation with GLFW's
-        // OpenGL context, or any context that is managed externally.
-        // LWJGL detects the context that is current in the current thread,
-        // creates the GLCapabilities instance and makes the OpenGL
-        // bindings available for use.
-
         // Set the clear color
         glClearColor(1f, 1f, 1f, 1.0f);
 
@@ -122,8 +111,7 @@ public class Application {
 
             glfwSwapBuffers(window); // swap the color buffers
 
-            // Poll for window events. The key callback above will only be
-            // invoked during this call.
+            // Poll for window events.
             glfwPollEvents();
         }
     }
@@ -141,6 +129,7 @@ public class Application {
                 loadGame();
             }
         });
+        glfwSetMouseButtonCallback(window, null);
         glClearColor(1f, 1f, 1f, 1.0f);
     }
 

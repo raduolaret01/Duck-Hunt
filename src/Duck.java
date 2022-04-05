@@ -1,6 +1,9 @@
 import java.sql.Time;
 import java.util.BitSet;
 
+// TODO: replace hard-coded references to window size with relative window dimensions
+// Can "juggle" already dead ducks: Bug or Feature?
+
 public class Duck extends GameObject{
     //Main direction of movement: 0 = right, 1 = down, 2 = left, 3 = up
     private int direction;
@@ -162,7 +165,6 @@ public class Duck extends GameObject{
         if(chance <= 2){
             updateMovement();
         }
-
     }
 
     public void kill(){
