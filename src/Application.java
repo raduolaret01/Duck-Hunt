@@ -2,21 +2,31 @@
 import org.lwjgl.Version;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
+import org.lwjgl.system.MemoryStack;
 
 import java.io.IOException;
+import java.nio.IntBuffer;
 
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL33.*;
-import static org.lwjgl.system.MemoryUtil.NULL;
+import static org.lwjgl.system.MemoryStack.stackPush;
+import static org.lwjgl.system.MemoryUtil.*;
+
+//TODO: Implement settings (and resolution)
 
 public class Application {
 
     // The window handle
-    private long window;
+    private static long window;
+    public static long getWindow(){
+        return window;
+    }
+
     private Renderer renderContext = Renderer.getInstance();
     private Cursor pointer = Cursor.getInstance();
-    private Game game = new Game();
+    private ApplicationState[] states = new ApplicationState[5];
+    private ApplicationState currentState, nextState;
 
 
     public void run() {
@@ -52,33 +62,23 @@ public class Application {
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // the window will stay hidden after creation
+        //Use current monitor video mode for "borderless fullscreen"
         glfwWindowHint(GLFW_RED_BITS, vidmode.redBits());
         glfwWindowHint(GLFW_GREEN_BITS, vidmode.greenBits());
         glfwWindowHint(GLFW_BLUE_BITS, vidmode.blueBits());
         glfwWindowHint(GLFW_REFRESH_RATE, vidmode.refreshRate());
-        //glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will NOT be resizable
+        //glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will NOT be resizable (a few resolutions maybe if I implement options menu)
 
         // Create the window
         window = glfwCreateWindow(vidmode.width(), vidmode.height(), "Hello World!", NULL, NULL);
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 
-        // Setup key callbacks.
-        glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
-            if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE ) {
-                glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
-            }
-            if( key == GLFW_KEY_M && action == GLFW_RELEASE ) {
-                loadGame(); // Enter Game if M is pressed
-            }
-        });
-
         //Cursor position callback (custom cursor object)
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
         glfwSetCursorPosCallback(window, (window, xpos, ypos) -> {
             pointer.update(xpos, ypos);
         });
-        game.setWindow(window);
 
         // Make the OpenGL context current
         glfwMakeContextCurrent(window);
@@ -92,7 +92,12 @@ public class Application {
         // Make the window visible
         glfwShowWindow(window);
 
+        //Initialise renderer
         renderContext.init(vidmode.width(), vidmode.height());
+
+        states[1] = new Game();
+        states[0] = new Menu();
+        currentState = states[0];
 
         Timer.startTime();
     }
@@ -109,29 +114,62 @@ public class Application {
 
             renderContext.DrawObject(pointer);
 
+            currentState.init();
+
+            nextState = states[ currentState.loop() ];
+
             glfwSwapBuffers(window); // swap the color buffers
 
             // Poll for window events.
             glfwPollEvents();
+
+            currentState = nextState;
+            nextState = null;
         }
     }
+//
+//    protected void loadGame(){
+//        game.init();
+//        game.loop();
+//
+//        glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
+//            if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE ) {
+//                glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
+//            }
+//            if( key == GLFW_KEY_M && action == GLFW_RELEASE ) {
+//                System.out.println("M pressed!");
+//                loadGame();
+//            }
+//        });
+//        glfwSetMouseButtonCallback(window, null);
+//
+//        glClearColor(1f, 1f, 1f, 1.0f);
+//    }
 
-    protected void loadGame(){
-        game.init();
-        game.loop();
+    private void changeState(){
 
-        glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
-            if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE ) {
-                glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
-            }
-            if( key == GLFW_KEY_M && action == GLFW_RELEASE ) {
-                System.out.println("M pressed!");
-                loadGame();
-            }
-        });
-        glfwSetMouseButtonCallback(window, null);
-        glClearColor(1f, 1f, 1f, 1.0f);
     }
+
+    public static int getWindowHeight(){
+        int h;
+        try(MemoryStack stack = stackPush()){
+            IntBuffer height = stack.mallocInt(1);
+            glfwGetWindowSize(window, null, height);
+            h = height.get(0);
+        }
+        return h;
+    }
+
+    public static int getWindowWidth(){
+        int w;
+        try(MemoryStack stack = stackPush()){
+            IntBuffer width = stack.mallocInt(1);
+            glfwGetWindowSize(window, width, null);
+            w = width.get(0);
+        }
+        return w;
+    }
+
 
     public static void main(String[] args) {
         new Application().run();

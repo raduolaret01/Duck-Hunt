@@ -24,6 +24,7 @@ public class TextureAtlas {
         Atlas[1] = new Texture(36, 1, 34, 34);
         Atlas[2] = new Texture(71, 1, 34, 34);
         Atlas[3] = new Texture(1, 37, 7, 7);
+        Atlas[4] = new Texture(0,0,1,1);
         try (MemoryStack stack = stackPush()) {
             IntBuffer width = stack.callocInt(1);
             IntBuffer height = stack.callocInt(1);

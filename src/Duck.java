@@ -1,7 +1,7 @@
 import java.sql.Time;
 import java.util.BitSet;
 
-// TODO: replace hard-coded references to window size with relative window dimensions
+// TODO: replace hard-coded references to window size with resolution dimensions
 // Can "juggle" already dead ducks: Bug or Feature?
 
 public class Duck extends Enemy{
@@ -22,7 +22,7 @@ public class Duck extends Enemy{
             return;
         }
         speed = 0.25d + Math.random() * 0.25d;
-        //Quadrants of cartesian coordonate system
+        //Quadrants of cartesian coordonate system, centered on duck
         BitSet quadrants = new BitSet(4);
         quadrants.set(0,4);
         //If the duck is too close to the edge of the screen, it will select an opposite direction
@@ -138,7 +138,6 @@ public class Duck extends Enemy{
             default:
                 throw new IllegalStateException("Invalid duck movement direction!");
         }
-        //System.out.println(posX + " " + posY + " " + direction + " " + slope);
         if(isDead){
             if(updateCoolDown >= 1000){
                 updateMovement();
