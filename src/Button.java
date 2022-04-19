@@ -1,7 +1,12 @@
-public class Button extends GameObject{
+public class Button extends GraphicObject {
 
     public Button(int x, int y, int w, int h){
         super(4, x, y, w, h);
+    }
+
+    @Override
+    public void draw() {
+
     }
 
     @Override

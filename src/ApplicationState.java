@@ -7,6 +7,7 @@ public abstract class ApplicationState {
     protected boolean exitFlag = false;
     protected Renderer renderContext = Renderer.getInstance();
     protected Cursor pointer = Cursor.getInstance();
+    protected Tile background;
 
     protected abstract void init();
     protected abstract int loop();

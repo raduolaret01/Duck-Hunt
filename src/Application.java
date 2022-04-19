@@ -53,7 +53,6 @@ public class Application {
         if ( !glfwInit() )
             throw new IllegalStateException("Unable to initialize GLFW");
 
-        GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
         // Configure GLFW
         glfwDefaultWindowHints(); // optional, the current window hints are already the default
@@ -63,6 +62,7 @@ public class Application {
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // the window will stay hidden after creation
         //Use current monitor video mode for "borderless fullscreen"
+        GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
         glfwWindowHint(GLFW_RED_BITS, vidmode.redBits());
         glfwWindowHint(GLFW_GREEN_BITS, vidmode.greenBits());
         glfwWindowHint(GLFW_BLUE_BITS, vidmode.blueBits());

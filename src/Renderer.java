@@ -1,6 +1,5 @@
 
 import java.io.IOException;
-import org.lwjgl.stb.*;
 
 import static org.lwjgl.opengl.GL33.*;
 
@@ -76,10 +75,10 @@ public class Renderer {
         glBindVertexArray(0);
     }
 
-    void DrawObject(GameObject x){
+    void DrawObject(GraphicObject obj){
         float[] objV, texC;
-        objV = normalizeObjectCoords(x);
-        texC = TexAt.normalizeCoords(TexAt.getAtlas()[x.texID]);
+        objV = normalizeObjectCoords(obj);
+        texC = TexAt.normalizeCoords(TexAt.getAtlas()[obj.texID]);
         //Build VBO
         for(int i = 0,j = 0;i<8 && j<16;i+=2,j+=4){
             vertices[j] = objV[i];
@@ -97,7 +96,7 @@ public class Renderer {
         glBindVertexArray(0);
     }
 
-    float[] normalizeObjectCoords(GameObject x){
+    float[] normalizeObjectCoords(GraphicObject x){
         float halfW = (float) screenW / 2, halfH = (float) screenH / 2;
         float[] temp = {
                 (float) (x.posX - halfW)/halfW, (float) (halfH - x.posY)/halfH,

@@ -15,11 +15,24 @@ public class Game extends ApplicationState {
 
     private boolean pauseFlag = false;
     private Duck testDuck[];
+    /** 0 = Score, 1 = Round Progress, 2 = Shots, 3 = Round number, 4 = Dog (for now) */
+    private GraphicObject[] HudObjects = new GraphicObject[4];
+
+    //Information needed for Hud Elements
+    static int ducksShot = 0;
+
+    public static int getDucksShot(){
+        return ducksShot;
+    }
 
     @Override
     protected void init() {
 
         this.window = Application.getWindow();
+        background = TileFactory.MakeTile("Level1Background",0,0,1920,1080);
+
+        HudObjects[0] = new ScoreTab(1714,938,106,42);
+        HudObjects[1] = new ProgressTab(724,938,236,42);
 
         exitFlag = false;
         pauseFlag = false;
@@ -30,6 +43,7 @@ public class Game extends ApplicationState {
                 for(Duck ducky : testDuck){
                     if(Math.abs((pointer.posX + 25) - (ducky.posX + ducky.width / 2)) < 77 && Math.abs((pointer.posY + 25) - (ducky.posY + ducky.height / 2)) < 77){
                         ducky.kill();
+                        ducksShot++;
                     }
                 }
             }
@@ -66,10 +80,20 @@ public class Game extends ApplicationState {
             Timer.setDeltaTime();
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
+            //draw background
+            background.draw();
+
+            //update Hud Elements
+            for(int i = 0; i < 2; ++i){
+                HudObjects[i].update();
+                HudObjects[i].draw();
+            }
+            ducksShot = 0;
+
             // Update ducks positions and states
             for(int i = 0; i < 5; ++i){
                 testDuck[i].update();
-                renderContext.DrawObject(testDuck[i]);
+                testDuck[i].draw();
                 if(testDuck[i].posY > 1200){
                     testDuck[i] = new Duck();
                 }

@@ -1,20 +1,17 @@
-import org.lwjgl.*;
-import org.lwjgl.opengl.*;
-import org.lwjgl.system.*;
-
-
-public abstract class GameObject {
+public abstract class GraphicObject {
     protected int posX, posY, width, height, texID;
 
-    GameObject(){ };
+    GraphicObject(){ };
 
-    GameObject(int textureID, int x, int y, int w, int h){
+    GraphicObject(int textureID, int x, int y, int w, int h){
         texID = textureID;
         posX = x;
         posY = y;
         width = w;
         height = h;
     }
+
+    public abstract void draw();
 
     public abstract void update();
 }

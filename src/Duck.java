@@ -12,6 +12,12 @@ public class Duck extends Enemy{
         super(0, (int)(480 + Math.random() * 960),1018,102,102);
     }
 
+    @Override
+    public void draw() {
+        Renderer.getInstance().DrawObject(this);
+    }
+
+    @Override
     protected void updateMovement(){
         updateCoolDown = 0;
         if(isDead){
