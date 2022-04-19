@@ -15,14 +15,23 @@ public class Game extends ApplicationState {
 
     private boolean pauseFlag = false;
     private Duck testDuck[];
-    /** 0 = Score, 1 = Round Progress, 2 = Shots, 3 = Round number, 4 = Dog (for now) */
+    /** 0 = Shots, 1 = Round Progress, 2 = Score, 3 = Round number, 4 = Dog (for now) */
     private GraphicObject[] HudObjects = new GraphicObject[4];
 
     //Information needed for Hud Elements
     static int ducksShot = 0;
+    static int round = 1;
 
     public static int getDucksShot(){
         return ducksShot;
+    }
+
+    public static int getRound(){
+        return round;
+    }
+
+    public static void advanceRound(){
+        ++round;
     }
 
     @Override
@@ -31,8 +40,10 @@ public class Game extends ApplicationState {
         this.window = Application.getWindow();
         background = TileFactory.MakeTile("Level1Background",0,0,1920,1080);
 
-        HudObjects[0] = new ScoreTab(1714,938,106,42);
+        HudObjects[0] = new ShotCounter(224,938,60,42);
         HudObjects[1] = new ProgressTab(724,938,236,42);
+        HudObjects[2] = new ScoreTab(1714,938,106,42);
+        HudObjects[3] = new RoundCounter(224,838,76,24);
 
         exitFlag = false;
         pauseFlag = false;
@@ -46,6 +57,7 @@ public class Game extends ApplicationState {
                         ducksShot++;
                     }
                 }
+                HudObjects[0].update();
             }
         });
 
@@ -84,10 +96,12 @@ public class Game extends ApplicationState {
             background.draw();
 
             //update Hud Elements
-            for(int i = 0; i < 2; ++i){
+            for(int i = 1; i < 4; ++i){
                 HudObjects[i].update();
                 HudObjects[i].draw();
             }
+            HudObjects[0].draw();
+
             ducksShot = 0;
 
             // Update ducks positions and states
@@ -109,6 +123,7 @@ public class Game extends ApplicationState {
         if(pauseFlag){
             return 2;
         }
+        round = 0;
         // Reset exit flag to be able to re-enter game later.
         // Could be raplaced by deleting and reinstantiating Game whenever we want to load another level
         exitFlag = false;

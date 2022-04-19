@@ -28,6 +28,7 @@ public class ProgressTab extends GraphicObject{
         hitDucks += Game.getDucksShot();
         if(hitDucks >= maxDucks){
             hitDucks = 0;
+            Game.advanceRound();
         }
         int i = 0;
         while(i < hitDucks){

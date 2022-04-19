@@ -46,6 +46,8 @@ public class TextureAtlas {
         //
         Atlas[22] = new Texture(151,347,53,21);//score tab
         Atlas[23] = new Texture(32,347,118,21);//progress tab
+        Atlas[24] = new Texture(1,347,30,21);//Shots counter
+        Atlas[25] = new Texture(205,347,38,12);//Round counter
 
 
         try (MemoryStack stack = stackPush()) {
