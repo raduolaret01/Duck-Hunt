@@ -28,6 +28,16 @@ public class Application {
     private ApplicationState[] states = new ApplicationState[5];
     private ApplicationState currentState, nextState;
 
+    //Settings
+    private Settings settings;
+
+    public Settings getSettings() {
+        return settings;
+    }
+
+    public void setSettings(Settings settings) {
+        this.settings = settings;
+    }
 
     public void run() {
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
@@ -69,8 +79,11 @@ public class Application {
         glfwWindowHint(GLFW_REFRESH_RATE, vidmode.refreshRate());
         //glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will NOT be resizable (a few resolutions maybe if I implement options menu)
 
+        //Default setting for now
+        settings = new Settings(vidmode.width(), vidmode.height(),100);
+
         // Create the window
-        window = glfwCreateWindow(vidmode.width(), vidmode.height(), "Hello World!", NULL, NULL);
+        window = glfwCreateWindow(settings.getResolutionW(), settings.getResolutionH(), "Hello World!", glfwGetPrimaryMonitor(), NULL);
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 
