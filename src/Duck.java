@@ -46,7 +46,7 @@ public class Duck extends Enemy{
         updateCoolDown = 0;
         currentAnimState.reset();
         if(isDead){
-            texID = 2;
+            currentAnimState = animStates[4];
             direction = 1;
             speed = 0.75d;
             slope = 0d;
@@ -185,7 +185,7 @@ public class Duck extends Enemy{
 
     public void update(){
         int dT = Timer.getDeltaTime();
-        animUpdate();
+        animUpdate(dT);
         /**
          * dPos1 = absolute "distance"
          * dPos2 = not absolute ( has sign of slope )
@@ -224,21 +224,21 @@ public class Duck extends Enemy{
         if(posX < 60 || posX > 1758 || posY < 60 || posY > 918 ){
             updateMovement();
         }
-        int chance = (int)(Math.random() * 100);
+        int chance = (int)(Math.random() * 1000);
         updateCoolDown += Timer.getDeltaTime();
         if(updateCoolDown < 250){
             return;
         }
-        if(chance <= 2){
+        if(chance <= 5){
             updateMovement();
         }
     }
 
-    private void animUpdate(){
-        animUpdateCooldown += Timer.getDeltaTime();
-        if(animUpdateCooldown > 16){
+    private void animUpdate(int dT){
+        animUpdateCooldown += dT;
+        if(animUpdateCooldown > 160){
             texID = currentAnimState.update();
-            if(isDead){
+            if(currentAnimState == animStates[4]){
                 flip = !flip;
             }
             animUpdateCooldown = 0;
@@ -249,7 +249,9 @@ public class Duck extends Enemy{
         isDead = true;
         direction = -1;
         speed = 0.5f;
-        texID = 1;
+        currentAnimState = animStates[3];
+        updateCoolDown = 0;
+        animUpdate(1000); // Force frame update
     }
 
 }
