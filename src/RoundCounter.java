@@ -1,7 +1,7 @@
 public class RoundCounter extends GraphicObject{
 
     RoundCounter(int x, int y, int w, int h){
-        super(44, x, y, w, h);
+        super(47, x, y, w, h);
     }
 
     private int round;

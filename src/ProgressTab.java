@@ -1,7 +1,7 @@
 public class ProgressTab extends GraphicObject{
 
     ProgressTab(int x, int y, int w, int h){
-        super(42, x, y, w, h);
+        super(45, x, y, w, h);
     }
 
     private int maxDucks = 10;

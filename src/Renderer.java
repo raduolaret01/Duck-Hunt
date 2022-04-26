@@ -95,6 +95,34 @@ public class Renderer {
         glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);
         glBindVertexArray(0);
     }
+    void DrawObjectFlip(GraphicObject obj, boolean flip){
+        float[] objV, texC;
+        objV = normalizeObjectCoords(obj);
+        texC = TexAt.normalizeCoords(TexAt.getAtlas()[obj.texID]);
+        if(flip){
+            float temp = texC[0];
+            texC[0] = texC[2];
+            texC[2] = temp;
+            temp = texC[4];
+            texC[4] = texC[6];
+            texC[6] = temp;
+        }
+        //Build VBO
+        for(int i = 0,j = 0;i<8 && j<16;i+=2,j+=4){
+            vertices[j] = objV[i];
+            vertices[j+1] = objV[i+1];
+            vertices[j+2] = texC[i];
+            vertices[j+3] = texC[i+1];
+        }
+
+        //Buffer Data Streaming through re-specification (planned) (MAYBE)
+        glBufferData(GL_ARRAY_BUFFER, vertices, GL_DYNAMIC_DRAW);
+
+        glBindVertexArray(VAO);
+        glBindTexture(GL_TEXTURE_2D, texture);
+        glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);
+        glBindVertexArray(0);
+    }
 
     float[] normalizeObjectCoords(GraphicObject x){
         float halfW = (float) screenW / 2, halfH = (float) screenH / 2;

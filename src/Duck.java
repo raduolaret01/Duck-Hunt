@@ -6,20 +6,45 @@ import java.util.BitSet;
 
 public class Duck extends Enemy{
 
+    private int variant = (int) (Math.random() * 3d);
+    /**
+     * 0 = Move up, 1 = Move side, 2 = Move down, 3 = Shot, 4 = Falling
+     */
+    private AnimationState[] animStates = new AnimationState[5];
+    private AnimationState currentAnimState;
+    /**
+     * Basically is a "Facing left" flag
+     */
+    private boolean flip = false;
+
+    private int animUpdateCooldown = 0;
+
     public Duck(){
         //Starting x position : 480 + rand*960
         //Starting y position : 1018
+
         super(0, (int)(480 + Math.random() * 960),1018,102,102);
+
+        texID = variant * 9;
+
+        animStates[0] = new AnimationState(texID, 3);
+        animStates[1] = new AnimationState(texID + 3, 3);
+        animStates[2] = new AnimationState(texID + 6, 1);
+        animStates[3] = new AnimationState(texID + 7,1);
+        animStates[4] = new AnimationState(texID + 8, 1);
+
+        currentAnimState = animStates[0];
     }
 
     @Override
     public void draw() {
-        Renderer.getInstance().DrawObject(this);
+        Renderer.getInstance().DrawObjectFlip(this, flip);
     }
 
     @Override
     protected void updateMovement(){
         updateCoolDown = 0;
+        currentAnimState.reset();
         if(isDead){
             texID = 2;
             direction = 1;
@@ -56,62 +81,101 @@ public class Duck extends Enemy{
             }
         }
 
-        slope = Math.random() * 1.73f; // Slope = [0, sqrt(3)]
+        slope = Math.random() * 1.73d; // Slope = [0, sqrt(3)]
         //Constantly liniar y = m * x + n movement would have been nice, but can't simulate m->inf cases too well
         //So, based on main direction we change between y = m * x + n and x = m * y  + n
+
+
 
         switch (q) {
             case -1:
                 throw new IllegalStateException("Duck movement update failed! No available direction found!");
             case 0:
-                if (quadrants.get(1)){
+                if (quadrants.get(1)){ // Left
                     direction = 0;
+                    currentAnimState.reset();
+                    currentAnimState = animStates[1];
+                    flip = false;
                 }
-                else if(quadrants.get(3)){
+                else if(quadrants.get(3)){ // Up (and left)
                     direction = 3;
+                    currentAnimState.reset();
+                    currentAnimState = animStates[0];
+                    flip = false;
                 }
-                else { //Escape from corner
+                else { // Escape from bottom left corner
                     direction = 0;
-                    slope = (int)(Math.random() * 1.15f + 0.58f); // Slope = [sqrt(3)/3, sqrt(3)]
+                    slope = -(Math.random() * 1.15d + 0.58d); // Slope = [sqrt(3)/3, sqrt(3)]
+                    currentAnimState.reset();
+                    currentAnimState = animStates[1];
+                    flip = false;
                 }
                 break;
             case 1:
-                if(quadrants.get(0)){
+                if(quadrants.get(0)){ // Left
                     direction = 0;
                     slope = -slope;
+                    currentAnimState.reset();
+                    currentAnimState = animStates[1];
+                    flip = false;
                 }
-                else if(quadrants.get(2)) {
+                else if(quadrants.get(2)) { // Down (and left)
                     direction = 1;
+                    currentAnimState.reset();
+                    currentAnimState = animStates[2];
+                    flip = false;
                 }
-                else {
+                else { // Escape from top left corner
                     direction = 0;
-                    slope = -(int)(Math.random() * 1.15f + 0.58f); // Slope = [-sqrt(3), -sqrt(3)/3]
+                    slope = Math.random() * 1.15d + 0.58d; // Slope = [-sqrt(3), -sqrt(3)/3]
+                    currentAnimState.reset();
+                    currentAnimState = animStates[1];
+                    flip = false;
                 }
                 break;
             case 2:
-                if(quadrants.get(1)){
+                if(quadrants.get(1)){ // Down (but to the right this time)
                     direction = 1;
                     slope = -slope;
+                    currentAnimState.reset();
+                    currentAnimState = animStates[2];
+                    flip = true;
                 }
-                else if(quadrants.get(3)) {
+                else if(quadrants.get(3)) { // Right (and down)
                     direction = 2;
+                    slope = -slope;
+                    currentAnimState.reset();
+                    currentAnimState = animStates[1];
+                    flip = true;
                 }
-                else {
+                else { // Escape from top right corner
                     direction = 2;
-                    slope = (int)(Math.random() * 1.15f + 0.58f); // Slope = [-sqrt(3), -sqrt(3)/3]
+                    slope = Math.random() * 1.15d + 0.58d; // Slope = [sqrt(3)/3, sqrt(3)]
+                    currentAnimState.reset();
+                    currentAnimState = animStates[1];
+                    flip = true;
                 }
                 break;
             case 3:
-                if(quadrants.get(2)){
+                if(quadrants.get(2)){ // Right (and up)
                     direction = 2;
-                    slope = -slope;
+                    currentAnimState.reset();
+                    currentAnimState = animStates[1];
+                    flip = true;
                 }
-                else if(quadrants.get(0)) {
+                else if(quadrants.get(0)) { // Up (but to the right)
                     direction = 3;
+                    slope = -slope;
+                    currentAnimState.reset();
+                    currentAnimState = animStates[0];
+                    flip = true;
                 }
-                else {
+                else { // Escape from bottom right corner
                     direction = 2;
-                    slope = -(int)(Math.random() * 1.15f + 0.58f); // Slope = [sqrt(3)/3, sqrt(3)]
+                    slope = -(Math.random() * 1.15d + 0.58d); // Slope = [-sqrt(3), -sqrt(3)/3]
+                    currentAnimState.reset();
+                    currentAnimState = animStates[1];
+                    flip = true;
                 }
                 break;
             default:
@@ -120,26 +184,32 @@ public class Duck extends Enemy{
     }
 
     public void update(){
-        int dT = Timer.getDeltaTime(), dPos1 = (int)(speed * dT), dPos2 = (int)(dPos1 * slope);
+        int dT = Timer.getDeltaTime();
+        animUpdate();
+        /**
+         * dPos1 = absolute "distance"
+         * dPos2 = not absolute ( has sign of slope )
+         */
+        int dPos1 = (int)(speed * dT), dPos2 = (int)(dPos1 * slope);
         switch (direction){
             case -1:
                 updateCoolDown += Timer.getDeltaTime();
                 break;
-            case 0:
-                posX += dPos1;
-                posY += dPos2;
+            case 0: // Left
+                posX += dPos1; // x increases
+                posY += dPos2; // y += slope * dx
                 break;
-            case 1:
-                posX += dPos2;
-                posY += dPos1;
+            case 1: // Down
+                posY += dPos1; // y increases ( top left is 0,0 )
+                posX += dPos2; // x += slope * dy
                 break;
-            case 2:
-                posX -= dPos1;
-                posY += dPos2;
+            case 2: // Right
+                posX -= dPos1; // x decreases
+                posY += dPos2; // y += slope * dx
                 break;
-            case 3:
-                posX += dPos2;
-                posY -= dPos1;
+            case 3: // Up
+                posY -= dPos1; // y decreases
+                posX += dPos2; // x += slope * dy
                 break;
             default:
                 throw new IllegalStateException("Invalid duck movement direction!");
@@ -161,6 +231,17 @@ public class Duck extends Enemy{
         }
         if(chance <= 2){
             updateMovement();
+        }
+    }
+
+    private void animUpdate(){
+        animUpdateCooldown += Timer.getDeltaTime();
+        if(animUpdateCooldown > 16){
+            texID = currentAnimState.update();
+            if(isDead){
+                flip = !flip;
+            }
+            animUpdateCooldown = 0;
         }
     }
 

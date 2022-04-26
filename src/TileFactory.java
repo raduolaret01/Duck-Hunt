@@ -29,6 +29,6 @@ public class TileFactory {
         if(index == -1){
             throw new IllegalStateException("Invalid Tile Factory Request!: " + descriptor);
         }
-        return new Tile(24 + index, x, y, w, h);
+        return new Tile(27 + index, x, y, w, h);
     }
 }

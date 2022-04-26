@@ -4,7 +4,9 @@ public abstract class Enemy extends GraphicObject {
         super(textureID, x, y, w, h);
     }
 
-    //Main direction of movement: 0 = right, 1 = down, 2 = left, 3 = up
+    /**
+     * Main direction of movement: 0 = right, 1 = down, 2 = left, 3 = up
+     */
     protected int direction;
     //Slope of movement
     protected double slope;

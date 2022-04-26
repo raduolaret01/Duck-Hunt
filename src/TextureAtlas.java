@@ -70,10 +70,10 @@ public class TextureAtlas {
 
     public float[] normalizeCoords(Texture tex){
         float[] temp = {
-                (float) (tex.x)/ sheetW, (float) (tex.y)/ sheetH,
-                (float) (tex.x+tex.w)/ sheetW, (float) (tex.y)/ sheetH,
-                (float) (tex.x)/ sheetW, (float) (tex.y+tex.h)/ sheetH,
-                (float) (tex.x+tex.w)/ sheetW, (float) (tex.y+tex.h)/ sheetH
+                (float) (tex.x)/ sheetW, (float) (tex.y)/ sheetH, // Top left
+                (float) (tex.x+tex.w)/ sheetW, (float) (tex.y)/ sheetH, // Top right
+                (float) (tex.x)/ sheetW, (float) (tex.y+tex.h)/ sheetH, // Bottom left
+                (float) (tex.x+tex.w)/ sheetW, (float) (tex.y+tex.h)/ sheetH // Bottom right
         };
         return temp;
     }
