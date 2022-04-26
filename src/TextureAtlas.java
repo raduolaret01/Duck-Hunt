@@ -19,11 +19,12 @@ public class TextureAtlas {
 
 
     public void testLoad(){
+        /*
         Atlas = new Texture[30];
         Atlas[0] = new Texture(1,1,34,34);//duck flying
         Atlas[1] = new Texture(211, 1, 34, 34);//duck shot
         Atlas[2] = new Texture(246, 1, 34, 34);//duck falling
-        Atlas[3] = new Texture(205, 360, 23, 23);//cursor
+        Atlas[3] = new Texture(205, 360, 25, 25);//cursor
         Atlas[4] = new Texture(608,354,23,16);// temp button
         //Tile textures
         Atlas[5] = new Texture(1,106,256,240);//level 1 background
@@ -48,6 +49,9 @@ public class TextureAtlas {
         Atlas[23] = new Texture(32,347,118,21);//progress tab
         Atlas[24] = new Texture(1,347,30,21);//Shots counter
         Atlas[25] = new Texture(205,347,38,12);//Round counter
+        */
+
+        Atlas = DataManager.LoadTextureInfo();
 
 
         try (MemoryStack stack = stackPush()) {

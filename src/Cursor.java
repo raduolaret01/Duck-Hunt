@@ -8,7 +8,7 @@ public class Cursor extends GraphicObject {
         return instance;
     }
     private Cursor(){
-        super(3, 1920/2, 1080/2, 50,50);
+        super(45, 1920/2, 1080/2, 50,50);
     }
 
     @Override

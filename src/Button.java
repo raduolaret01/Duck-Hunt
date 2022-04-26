@@ -1,7 +1,7 @@
 public class Button extends GraphicObject {
 
     public Button(int x, int y, int w, int h){
-        super(4, x, y, w, h);
+        super(44, x, y, w, h);
     }
 
     @Override

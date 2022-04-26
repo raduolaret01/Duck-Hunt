@@ -1,7 +1,7 @@
 public class ShotCounter extends GraphicObject{
 
     ShotCounter(int x, int y, int w, int h){
-        super(24, x, y, w, h);
+        super(43, x, y, w, h);
         for(int i = 0; i < 3; ++i){
             shotsTiles[i] = TileFactory.MakeTile("Cartridge",posX + 38 - 16*i,posY + 4,16,16);
         }

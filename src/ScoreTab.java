@@ -1,7 +1,7 @@
 public class ScoreTab extends GraphicObject{
 
     ScoreTab(int x, int y, int w, int h){
-        super(22, x, y, w, h);
+        super(41, x, y, w, h);
     }
 
     private int score = 0;
