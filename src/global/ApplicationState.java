@@ -1,3 +1,5 @@
+package global;
+
 public abstract class ApplicationState {
 
     protected long window;

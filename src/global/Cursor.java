@@ -1,4 +1,4 @@
-//TODO: Can make Cursor extend Tile and replace the update(x,y) function with a drawAtDest override
+package global;//TODO: Can make global.Cursor extend global.Tile and replace the update(x,y) function with a drawAtDest override
 
 public class Cursor extends GraphicObject {
 

@@ -1,3 +1,5 @@
+package global;
+
 public abstract class Enemy extends GraphicObject {
 
     protected Enemy(int textureID, int x, int y, int w, int h){

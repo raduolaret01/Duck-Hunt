@@ -1,3 +1,5 @@
+package global;
+
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
@@ -5,7 +7,7 @@ import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
 public class Menu extends ApplicationState {
 
     private boolean loadGame = false;
-    /** 0 = New Game, 1 = Top Scores / Leaderboard, 2 = Options */
+    /** 0 = New global.Game, 1 = Top Scores / Leaderboard, 2 = Options */
     private Button[] buttons = new Button[3];
     int pressedButton = -1;
 
@@ -25,7 +27,7 @@ public class Menu extends ApplicationState {
                 glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
             }
             if( key == GLFW_KEY_M && action == GLFW_RELEASE ) {
-                loadGame = true; // Enter Game if M is pressed
+                loadGame = true; // Enter global.Game if M is pressed
             }
         });
 

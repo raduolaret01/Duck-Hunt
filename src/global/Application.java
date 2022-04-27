@@ -1,10 +1,10 @@
+package global;
 
 import org.lwjgl.Version;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.MemoryStack;
 
-import java.io.IOException;
 import java.nio.IntBuffer;
 
 import static org.lwjgl.glfw.Callbacks.*;
@@ -28,7 +28,7 @@ public class Application {
     private ApplicationState[] states = new ApplicationState[5];
     private ApplicationState currentState, nextState;
 
-    //Settings
+    //global.Settings
     private Settings settings;
 
     public Settings getSettings() {
@@ -87,7 +87,7 @@ public class Application {
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 
-        //Cursor position callback (custom cursor object)
+        //global.Cursor position callback (custom cursor object)
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
         glfwSetCursorPosCallback(window, (window, xpos, ypos) -> {
             pointer.update(xpos, ypos);

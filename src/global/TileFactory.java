@@ -1,9 +1,11 @@
+package global;
+
 import java.util.ArrayList;
 
 public class TileFactory {
 
-    static ArrayList<String> descriptorList = null;
-    static Tile MakeTile(String descriptor, int x, int y, int w, int h){
+    private static ArrayList<String> descriptorList = null;
+    public static Tile MakeTile(String descriptor, int x, int y, int w, int h){
         //Build list on first call
         if(descriptorList == null){
             descriptorList = new ArrayList<>();
@@ -27,7 +29,7 @@ public class TileFactory {
         }
         int index = descriptorList.indexOf(descriptor);
         if(index == -1){
-            throw new IllegalStateException("Invalid Tile Factory Request!: " + descriptor);
+            throw new IllegalStateException("Invalid global.Tile Factory Request!: " + descriptor);
         }
         return new Tile(27 + index, x, y, w, h);
     }

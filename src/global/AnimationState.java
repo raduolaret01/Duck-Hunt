@@ -1,3 +1,4 @@
+package global;
 
 public class AnimationState {
     private int baseFrame, numberOfFrames, currentFrameOffset = 0, increment = 1;

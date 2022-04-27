@@ -1,3 +1,5 @@
+package global;
+
 public class Button extends GraphicObject {
 
     public Button(int x, int y, int w, int h){

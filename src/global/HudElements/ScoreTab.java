@@ -1,7 +1,14 @@
-public class ScoreTab extends GraphicObject{
+package global.HudElements;
 
-    ScoreTab(int x, int y, int w, int h){
+import global.*;
+public class ScoreTab extends GraphicObject {
+
+    public ScoreTab(int x, int y, int w, int h){
         super(44, x, y, w, h);
+    }
+
+    public ScoreTab(int x, int y){
+        super(44, x, y, (int)(53f * Renderer.getInstance().getUpscaleFactor()), (int)(21f * Renderer.getInstance().getUpscaleFactor()));
     }
 
     private int score = 0;
@@ -22,10 +29,11 @@ public class ScoreTab extends GraphicObject{
         if(score > 999999){
             score = 999999;
         }
+        float upFact = Renderer.getInstance().getUpscaleFactor();
         int tens = 1;
         for(int i = 5; i >= 0; --i){
             Integer temp = (score / tens) % 10;
-            scoreTiles[i] = TileFactory.MakeTile(temp.toString(),posX + 6 + i * 16, posY + 6,16,16);
+            scoreTiles[i] = TileFactory.MakeTile(temp.toString(),posX + (int)(3f * upFact) + (int)(8f * upFact) * i,posY + (int)(3f * upFact),(int)(8f * upFact),(int)(8f * upFact));
             tens *= 10;
         }
     }

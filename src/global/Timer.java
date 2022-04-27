@@ -1,3 +1,5 @@
+package global;
+
 public class Timer {
     private static int lastTime = 0;
     private static int deltaTime = 0;

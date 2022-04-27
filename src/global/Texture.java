@@ -1,3 +1,4 @@
+package global;
 
 //This should be in a database
 public class Texture {

@@ -1,15 +1,12 @@
-import org.lwjgl.*;
-import org.lwjgl.glfw.*;
-import org.lwjgl.opengl.*;
-import org.lwjgl.system.*;
+package global;
 
-import java.io.IOException;
-import java.nio.*;
+import global.HudElements.ProgressTab;
+import global.HudElements.RoundCounter;
+import global.HudElements.ScoreTab;
+import global.HudElements.ShotCounter;
 
-import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL33.*;
-import static org.lwjgl.system.MemoryUtil.*;
 
 public class Game extends ApplicationState {
 
@@ -40,10 +37,10 @@ public class Game extends ApplicationState {
         this.window = Application.getWindow();
         background = TileFactory.MakeTile("Level1Background",0,0,1920,1080);
 
-        HudObjects[0] = new ShotCounter(224,938,60,42);
-        HudObjects[1] = new ProgressTab(724,938,236,42);
-        HudObjects[2] = new ScoreTab(1714,938,106,42);
-        HudObjects[3] = new RoundCounter(224,838,76,24);
+        HudObjects[0] = new ShotCounter(224,938);
+        HudObjects[1] = new ProgressTab(724,938);
+        HudObjects[2] = new ScoreTab(1514,938);
+        HudObjects[3] = new RoundCounter(224,838);
 
         exitFlag = false;
         pauseFlag = false;
@@ -75,7 +72,7 @@ public class Game extends ApplicationState {
 //                pauseFlag = true;
 //            }
             if( key == GLFW_KEY_N && action == GLFW_RELEASE ) {
-                exitFlag = true; // Leave Game if N is pressed
+                exitFlag = true; // Leave global.Game if N is pressed
                 System.out.println("N pressed!");
             }
         });
@@ -125,7 +122,7 @@ public class Game extends ApplicationState {
         }
         round = 0;
         // Reset exit flag to be able to re-enter game later.
-        // Could be raplaced by deleting and reinstantiating Game whenever we want to load another level
+        // Could be raplaced by deleting and reinstantiating global.Game whenever we want to load another level
         exitFlag = false;
         return 0;
     }

@@ -1,3 +1,5 @@
+package global;
+
 public class Settings {
     private int resolutionW, resolutionH, volume;
 
@@ -12,6 +14,8 @@ public class Settings {
     public int getVolume() {
         return volume;
     }
+
+
 
     public Settings(int w , int h , int vol){
         resolutionW = w;

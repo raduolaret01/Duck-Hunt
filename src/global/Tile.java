@@ -1,3 +1,5 @@
+package global;
+
 public class Tile extends GraphicObject{
     //A bit forced, just a class to instantiate Graphic Objects.
     public Tile(int textureID, int x, int y, int w, int h){

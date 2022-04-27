@@ -1,4 +1,5 @@
-import java.sql.Time;
+package global;
+
 import java.util.BitSet;
 
 // TODO: replace hard-coded references to window size with resolution dimensions
@@ -89,7 +90,7 @@ public class Duck extends Enemy{
 
         switch (q) {
             case -1:
-                throw new IllegalStateException("Duck movement update failed! No available direction found!");
+                throw new IllegalStateException("global.Duck movement update failed! No available direction found!");
             case 0:
                 if (quadrants.get(1)){ // Left
                     direction = 0;
@@ -179,7 +180,7 @@ public class Duck extends Enemy{
                 }
                 break;
             default:
-                throw new IllegalStateException("Duck movement update failed! Invalid direction found!");
+                throw new IllegalStateException("global.Duck movement update failed! Invalid direction found!");
         }
     }
 

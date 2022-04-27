@@ -1,3 +1,4 @@
+package global;
 
 import java.io.IOException;
 
@@ -15,6 +16,27 @@ public class Renderer {
     Shader shader = null;
     TextureAtlas TexAt = null;
     int screenW, screenH;
+    float upscaleFactor = 4f;
+
+    public void setUpscaleFactor(int opt){
+        switch (opt){
+            case 0:
+                upscaleFactor = 4f;
+                break;
+            case 1:
+                upscaleFactor = 3.33f;
+                break;
+            case 2:
+                upscaleFactor = 2.66f;
+                break;
+            default:
+                throw new IllegalStateException("Unimplemented resolution!");
+        }
+    }
+
+    public float getUpscaleFactor(){
+        return upscaleFactor;
+    }
 
     float[] vertices = new float[16];
     final int[] indices = {
@@ -62,7 +84,7 @@ public class Renderer {
 
         TexAt.useAtlas();
 
-        //glUniform1i(glGetUniformLocation(shader.shaderProgramID, "Texture"), 1  );
+        //glUniform1i(glGetUniformLocation(shader.shaderProgramID, "global.Texture"), 1  );
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, texture);
 
@@ -75,7 +97,7 @@ public class Renderer {
         glBindVertexArray(0);
     }
 
-    void DrawObject(GraphicObject obj){
+    public void DrawObject(GraphicObject obj){
         float[] objV, texC;
         objV = normalizeObjectCoords(obj);
         texC = TexAt.normalizeCoords(TexAt.getAtlas()[obj.texID]);
@@ -95,7 +117,7 @@ public class Renderer {
         glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);
         glBindVertexArray(0);
     }
-    void DrawObjectFlip(GraphicObject obj, boolean flip){
+    public void DrawObjectFlip(GraphicObject obj, boolean flip){
         float[] objV, texC;
         objV = normalizeObjectCoords(obj);
         texC = TexAt.normalizeCoords(TexAt.getAtlas()[obj.texID]);

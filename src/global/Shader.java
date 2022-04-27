@@ -1,3 +1,4 @@
+package global;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -22,8 +23,8 @@ public class Shader {
         glCompileShader(vertexShader);
 
         if(glGetShaderi(vertexShader,GL_COMPILE_STATUS) == GL_FALSE){
-            System.err.print("Vertex Shader Compilation Failed:\n" + glGetShaderInfoLog(vertexShader));
-            throw new RuntimeException("Shader compilation failed!");
+            System.err.print("Vertex global.Shader Compilation Failed:\n" + glGetShaderInfoLog(vertexShader));
+            throw new RuntimeException("global.Shader compilation failed!");
         }
 
         int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
@@ -31,8 +32,8 @@ public class Shader {
         glCompileShader(fragmentShader);
 
         if(glGetShaderi(fragmentShader,GL_COMPILE_STATUS) == GL_FALSE){
-            System.err.print("Fragment Shader Compilation Failed:\n" + glGetShaderInfoLog(fragmentShader));
-            throw new RuntimeException("Shader compilation failed!");
+            System.err.print("Fragment global.Shader Compilation Failed:\n" + glGetShaderInfoLog(fragmentShader));
+            throw new RuntimeException("global.Shader compilation failed!");
         }
 
         shaderProgramID = glCreateProgram();
@@ -42,8 +43,8 @@ public class Shader {
         glLinkProgram(shaderProgramID);
 
         if(glGetProgrami(shaderProgramID, GL_LINK_STATUS) == GL_FALSE){
-            System.err.print("Shader program linking failed!:\n" + glGetProgramInfoLog(shaderProgramID));
-            throw new RuntimeException("Shader linking failed!");
+            System.err.print("global.Shader program linking failed!:\n" + glGetProgramInfoLog(shaderProgramID));
+            throw new RuntimeException("global.Shader linking failed!");
         }
 
         glUseProgram(shaderProgramID);
