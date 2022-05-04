@@ -16,27 +16,24 @@ public class Renderer {
     Shader shader = null;
     TextureAtlas TexAt = null;
     int screenW, screenH;
-    float upscaleFactor = 4f;
+    float downscaleFactor = 4f;
 
-    public void setUpscaleFactor(int opt){
+    public void setDownscaleFactor(int opt){
         switch (opt){
-            case 0:
-                upscaleFactor = 4f;
+            case 0://1080p
+                downscaleFactor = 1f;
                 break;
-            case 1:
-                upscaleFactor = 3.33f;
+            case 1://720p
+                downscaleFactor = 2f/3f;
                 break;
-            case 2:
-                upscaleFactor = 2.66f;
+            case 2://480p
+                downscaleFactor = 10f/27f;
                 break;
             default:
                 throw new IllegalStateException("Unimplemented resolution!");
         }
     }
 
-    public float getUpscaleFactor(){
-        return upscaleFactor;
-    }
 
     float[] vertices = new float[16];
     final int[] indices = {

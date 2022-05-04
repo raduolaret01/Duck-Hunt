@@ -7,8 +7,9 @@ public class ScoreTab extends GraphicObject {
         super(44, x, y, w, h);
     }
 
+    //Default size: 212 * 84
     public ScoreTab(int x, int y){
-        super(44, x, y, (int)(53f * Renderer.getInstance().getUpscaleFactor()), (int)(21f * Renderer.getInstance().getUpscaleFactor()));
+        super(44, x, y, 212, 84);
     }
 
     private int score = 0;
@@ -29,11 +30,10 @@ public class ScoreTab extends GraphicObject {
         if(score > 999999){
             score = 999999;
         }
-        float upFact = Renderer.getInstance().getUpscaleFactor();
         int tens = 1;
         for(int i = 5; i >= 0; --i){
             Integer temp = (score / tens) % 10;
-            scoreTiles[i] = TileFactory.MakeTile(temp.toString(),posX + (int)(3f * upFact) + (int)(8f * upFact) * i,posY + (int)(3f * upFact),(int)(8f * upFact),(int)(8f * upFact));
+            scoreTiles[i] = TileFactory.MakeTile(temp.toString(),posX + 12 + 32 * i,posY + 12,32,32);
             tens *= 10;
         }
     }

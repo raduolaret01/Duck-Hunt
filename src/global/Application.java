@@ -29,14 +29,22 @@ public class Application {
     private ApplicationState currentState, nextState;
 
     //global.Settings
-    private Settings settings;
+    private static Settings settings;
 
-    public Settings getSettings() {
+    public static Settings getSettings() {
         return settings;
     }
 
     public void setSettings(Settings settings) {
         this.settings = settings;
+    }
+
+    //Update settings
+    public static void updateSettings(Settings settings) {
+        glViewport(0,0, settings.getResolutionW(), settings.getResolutionH());
+        glfwSetWindowSize(window, settings.getResolutionW(), settings.getResolutionH());
+        //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+        Application.settings = settings;
     }
 
     public void run() {
@@ -83,7 +91,7 @@ public class Application {
         settings = new Settings(vidmode.width(), vidmode.height(),100);
 
         // Create the window
-        window = glfwCreateWindow(settings.getResolutionW(), settings.getResolutionH(), "Hello World!", NULL, NULL);
+        window = glfwCreateWindow(settings.getResolutionW(), settings.getResolutionH(), "Hello World!", glfwGetPrimaryMonitor(), NULL);
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 

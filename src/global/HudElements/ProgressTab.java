@@ -9,8 +9,9 @@ public class ProgressTab extends GraphicObject {
         super(45, x, y, w, h);
     }
 
+    //Default size (for 1080p): 472 * 84
     public ProgressTab(int x, int y){
-        super(45, x, y, (int)(118f * Renderer.getInstance().getUpscaleFactor()), (int)(21f * Renderer.getInstance().getUpscaleFactor()));
+        super(45, x, y, 472, 84);
     }
     private int maxDucks = 10;
     private int hitDucks = 0;
@@ -21,8 +22,7 @@ public class ProgressTab extends GraphicObject {
     @Override
     public void draw() {
         Renderer.getInstance().DrawObject(this);
-        float upFact = Renderer.getInstance().getUpscaleFactor();
-        timerTile.drawAtDestination( posX + (int)(3f * upFact) + (int)(114f * upFact) - (int)(2f * upFact * timeElapsed),posY + (int)(13f * upFact), (int)(2f * upFact * timeElapsed), (int)(5f * upFact));
+        timerTile.drawAtDestination(posX + 468 - (int)(8f * timeElapsed),posY + 52, (int)(8f * timeElapsed), 20);
 
         for(Tile duck : duckTiles){
             duck.draw();
@@ -32,6 +32,7 @@ public class ProgressTab extends GraphicObject {
     @Override
     public void update() {
         timeElapsed += ((float) Timer.getDeltaTime()) / 1000f;
+        //timer reset (game over not implemented)
         if(timeElapsed >= 40f){
             timeElapsed -= 40f;
         }
@@ -41,14 +42,13 @@ public class ProgressTab extends GraphicObject {
             Game.advanceRound();
         }
 
-        float upFact = Renderer.getInstance().getUpscaleFactor();
         int i = 0;
-        while(i < hitDucks){// 35 3
-            duckTiles[i] = TileFactory.MakeTile("DuckDead",posX + (int)(35f * upFact) + i * (int)(8f * upFact),posY + (int)(3f * upFact),(int)(8f * upFact),(int)(8f * upFact));
+        while(i < hitDucks){
+            duckTiles[i] = TileFactory.MakeTile("DuckDead",posX + 140 + i * 32,posY + 12,32,32);
             ++i;
         }
         while(i < maxDucks){
-            duckTiles[i] = TileFactory.MakeTile("DuckAlive",posX + (int)(35f * upFact) + i * (int)(8f * upFact),posY + (int)(3f * upFact),(int)(8f * upFact),(int)(8f * upFact));
+            duckTiles[i] = TileFactory.MakeTile("DuckAlive",posX + 140 + i * 32,posY + 12,32,32);
             ++i;
         }
     }

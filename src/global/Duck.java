@@ -4,6 +4,7 @@ import java.util.BitSet;
 
 // TODO: replace hard-coded references to window size with resolution dimensions
 // Can "juggle" already dead ducks: Bug or Feature?
+// Update: definetly bug, fixed
 
 public class Duck extends Enemy{
 

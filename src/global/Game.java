@@ -49,7 +49,7 @@ public class Game extends ApplicationState {
         glfwSetMouseButtonCallback(window, (window, button, action, mods) ->{
             if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS){
                 for(Duck ducky : testDuck){
-                    if(Math.abs((pointer.posX + 25) - (ducky.posX + ducky.width / 2)) < 77 && Math.abs((pointer.posY + 25) - (ducky.posY + ducky.height / 2)) < 77){
+                    if(!ducky.isDead && Math.abs((pointer.posX + 25) - (ducky.posX + ducky.width / 2)) < 77 && Math.abs((pointer.posY + 25) - (ducky.posY + ducky.height / 2)) < 77){
                         ducky.kill();
                         ducksShot++;
                     }
@@ -71,9 +71,12 @@ public class Game extends ApplicationState {
 //            if(key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE){
 //                pauseFlag = true;
 //            }
-            if( key == GLFW_KEY_N && action == GLFW_RELEASE ) {
+            if ( key == GLFW_KEY_N && action == GLFW_RELEASE ) {
                 exitFlag = true; // Leave global.Game if N is pressed
                 System.out.println("N pressed!");
+            }
+            if ( key == GLFW_KEY_R && action == GLFW_RELEASE ) {
+                Application.updateSettings(new Settings(1280,720,100));
             }
         });
     }

@@ -11,11 +11,11 @@ public class ShotCounter extends GraphicObject {
         }
     }
 
+    //Default size: 120 * 84
     public ShotCounter(int x, int y){
-        super(46,x,y,(int) (30f * (Renderer.getInstance().getUpscaleFactor())), (int) (21f * Renderer.getInstance().getUpscaleFactor()));
-        float upFact = Renderer.getInstance().getUpscaleFactor();
+        super(46,x,y,120, 84);
         for(int i = 0; i < 3; ++i){
-            shotsTiles[i] = TileFactory.MakeTile("Cartridge",posX + (int)(19f * upFact) - (int)(8f * upFact) * i,posY + (int)(2f * upFact),(int)(8f * upFact),(int)(8f * upFact));
+            shotsTiles[i] = TileFactory.MakeTile("Cartridge",posX + 76 - 32 * i,posY + 8,32,32);
         }
     }
 
@@ -38,14 +38,13 @@ public class ShotCounter extends GraphicObject {
         if(misses > 3){
             misses = 0;
         }
-        float upFact = Renderer.getInstance().getUpscaleFactor();
         int i = 0;
         while(i < misses){
-            shotsTiles[i] = TileFactory.MakeTile("Black",posX + (int)(19f * upFact) - (int)(8f * upFact) * i,posY + (int)(2f * upFact),(int)(8f * upFact),(int)(8f * upFact));
+            shotsTiles[i] = TileFactory.MakeTile("Black",posX + 76 - 32 * i,posY + 8,32,32);
             ++i;
         }
         while(i < 3){
-            shotsTiles[i] = TileFactory.MakeTile("Cartridge",posX + (int)(19f * upFact) - (int)(8f * upFact) * i,posY + (int)(2f * upFact),(int)(8f * upFact),(int)(8f * upFact));
+            shotsTiles[i] = TileFactory.MakeTile("Cartridge",posX + 76 - 32 * i,posY + 8,32,32);
             ++i;
         }
     }

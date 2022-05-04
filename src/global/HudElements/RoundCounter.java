@@ -7,8 +7,9 @@ public class RoundCounter extends GraphicObject {
         super(47, x, y, w, h);
     }
 
+    //Default size: 152 * 48
     public RoundCounter(int x, int y){
-        super(47,x,y,(int) (38f * (Renderer.getInstance().getUpscaleFactor())), (int) (12f * Renderer.getInstance().getUpscaleFactor()));
+        super(47,x,y,152, 48);
     }
 
     private int round;
@@ -25,11 +26,10 @@ public class RoundCounter extends GraphicObject {
     @Override
     public void update() {
         round = Game.getRound();
-        float upFact = Renderer.getInstance().getUpscaleFactor();
         int tens = 1;
         for(int i = 1; i >= 0; --i) {
             Integer temp = (round / tens) % 10;
-            roundTiles[i] = TileFactory.MakeTile(temp.toString(), posX + (int)(19f * upFact) + i * (int)(8f * upFact), posY + (int)(2f * upFact), (int)(8f * upFact), (int)(8f * upFact));
+            roundTiles[i] = TileFactory.MakeTile(temp.toString(), posX + 76 + i * 32, posY + 8, 32, 32);
             tens *= 10;
         }
     }
