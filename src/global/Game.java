@@ -12,12 +12,15 @@ public class Game extends ApplicationState {
 
     private boolean pauseFlag = false;
     private Duck testDuck[];
-    /** 0 = Shots, 1 = Round Progress, 2 = Score, 3 = Round number, 4 = Dog (for now) */
-    private GraphicObject[] HudObjects = new GraphicObject[4];
+    /** 0 = Shots, 1 = Round Progress, 2 = Score, 3 = Round number, 4 = GrassTile(for now) */
+    private GraphicObject[] HudObjects = new GraphicObject[5];
+    private Dog dog = new Dog();
 
     //Information needed for Hud Elements
-    static int ducksShot = 0;
-    static int round = 1;
+    private static int ducksShot = 0;
+    private static int round = 1;
+    /** Level above which enemies spawn */
+    private static int groundLevel = 240;
 
     public static int getDucksShot(){
         return ducksShot;
@@ -31,16 +34,21 @@ public class Game extends ApplicationState {
         ++round;
     }
 
+    public static int getGroundLevel(){
+        return groundLevel;
+    }
+
     @Override
     protected void init() {
 
         this.window = Application.getWindow();
-        background = TileFactory.MakeTile("Level1Background",0,0,1920,1080);
+        background = TileFactory.MakeGameTile("Level1Background",0,0,1920,1080);
 
         HudObjects[0] = new ShotCounter(224,938);
         HudObjects[1] = new ProgressTab(724,938);
         HudObjects[2] = new ScoreTab(1514,938);
         HudObjects[3] = new RoundCounter(224,838);
+        HudObjects[4] = new Tile(49,0,716,1920,368);
 
         exitFlag = false;
         pauseFlag = false;
@@ -95,23 +103,33 @@ public class Game extends ApplicationState {
             //draw background
             background.draw();
 
-            //update Hud Elements
-            for(int i = 1; i < 4; ++i){
-                HudObjects[i].update();
-                HudObjects[i].draw();
-            }
-            HudObjects[0].draw();
-
-            ducksShot = 0;
-
             // Update ducks positions and states
             for(int i = 0; i < 5; ++i){
                 testDuck[i].update();
                 testDuck[i].draw();
-                if(testDuck[i].posY > 1200){
+                if(testDuck[i].posY > 1080 - testDuck[i].height - groundLevel){ //1080 - duck.Height - GroundLevel
+                    dog.grabDuckAt(testDuck[i].posX);
                     testDuck[i] = new Duck();
                 }
             }
+            dog.update();
+            if(dog.isInBackground()){
+                dog.draw();
+            }
+            //update Hud Elements
+            HudObjects[4].draw(); //grass
+            if(!dog.isInBackground()){
+                dog.draw();
+            }
+            HudObjects[0].draw();
+            for(int i = 1; i < 4; ++i){
+                HudObjects[i].update();
+                HudObjects[i].draw();
+            }
+
+            ducksShot = 0;
+
+
 
             renderContext.DrawObject(pointer);
 

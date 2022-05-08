@@ -29,7 +29,7 @@ public class RoundCounter extends GraphicObject {
         int tens = 1;
         for(int i = 1; i >= 0; --i) {
             Integer temp = (round / tens) % 10;
-            roundTiles[i] = TileFactory.MakeTile(temp.toString(), posX + 76 + i * 32, posY + 8, 32, 32);
+            roundTiles[i] = TileFactory.MakeGameTile(temp.toString(), posX + 76 + i * 32, posY + 8, 32, 32);
             tens *= 10;
         }
     }

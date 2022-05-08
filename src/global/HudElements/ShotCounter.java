@@ -7,7 +7,7 @@ public class ShotCounter extends GraphicObject {
     public ShotCounter(int x, int y, int w, int h){
         super(46, x, y, w, h);
         for(int i = 0; i < 3; ++i){
-            shotsTiles[i] = TileFactory.MakeTile("Cartridge",posX + 38 - 16*i,posY + 4,16,16);
+            shotsTiles[i] = TileFactory.MakeGameTile("Cartridge",posX + 38 - 16*i,posY + 4,16,16);
         }
     }
 
@@ -15,7 +15,7 @@ public class ShotCounter extends GraphicObject {
     public ShotCounter(int x, int y){
         super(46,x,y,120, 84);
         for(int i = 0; i < 3; ++i){
-            shotsTiles[i] = TileFactory.MakeTile("Cartridge",posX + 76 - 32 * i,posY + 8,32,32);
+            shotsTiles[i] = TileFactory.MakeGameTile("Cartridge",posX + 76 - 32 * i,posY + 8,32,32);
         }
     }
 
@@ -40,11 +40,11 @@ public class ShotCounter extends GraphicObject {
         }
         int i = 0;
         while(i < misses){
-            shotsTiles[i] = TileFactory.MakeTile("Black",posX + 76 - 32 * i,posY + 8,32,32);
+            shotsTiles[i] = TileFactory.MakeGameTile("Black",posX + 76 - 32 * i,posY + 8,32,32);
             ++i;
         }
         while(i < 3){
-            shotsTiles[i] = TileFactory.MakeTile("Cartridge",posX + 76 - 32 * i,posY + 8,32,32);
+            shotsTiles[i] = TileFactory.MakeGameTile("Cartridge",posX + 76 - 32 * i,posY + 8,32,32);
             ++i;
         }
     }

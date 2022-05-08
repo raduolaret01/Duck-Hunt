@@ -8,7 +8,7 @@ public class AnimationState {
         this.numberOfFrames = numberOfFrames;
     }
 
-    public int update(){
+    public int updateBounce(){
         if(numberOfFrames == 1){
             return baseFrame;
         }
@@ -17,6 +17,17 @@ public class AnimationState {
         }
         else if(currentFrameOffset == 0){
             increment = 1;
+        }
+        currentFrameOffset += increment;
+        return baseFrame + currentFrameOffset;
+    }
+
+    public int updateLoop(){
+        if(numberOfFrames == 1){
+            return baseFrame;
+        }
+        if(currentFrameOffset == numberOfFrames - 1) {
+            currentFrameOffset = -1;
         }
         currentFrameOffset += increment;
         return baseFrame + currentFrameOffset;

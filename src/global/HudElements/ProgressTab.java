@@ -17,7 +17,7 @@ public class ProgressTab extends GraphicObject {
     private int hitDucks = 0;
     private float timeElapsed = 0;
     private Tile[] duckTiles = new Tile[maxDucks];
-    private Tile timerTile = TileFactory.MakeTile("Black", 0,0,8,8);
+    private Tile timerTile = TileFactory.MakeGameTile("Black", 0,0,8,8);
 
     @Override
     public void draw() {
@@ -44,11 +44,11 @@ public class ProgressTab extends GraphicObject {
 
         int i = 0;
         while(i < hitDucks){
-            duckTiles[i] = TileFactory.MakeTile("DuckDead",posX + 140 + i * 32,posY + 12,32,32);
+            duckTiles[i] = TileFactory.MakeGameTile("DuckDead",posX + 140 + i * 32,posY + 12,32,32);
             ++i;
         }
         while(i < maxDucks){
-            duckTiles[i] = TileFactory.MakeTile("DuckAlive",posX + 140 + i * 32,posY + 12,32,32);
+            duckTiles[i] = TileFactory.MakeGameTile("DuckAlive",posX + 140 + i * 32,posY + 12,32,32);
             ++i;
         }
     }

@@ -23,9 +23,9 @@ public class Duck extends Enemy{
 
     public Duck(){
         //Starting x position : 480 + rand*960
-        //Starting y position : 1018
+        //Starting y position : 1080 - 102 - Game.groundLevel
 
-        super(0, (int)(480 + Math.random() * 960),1018,102,102);
+        super(0, (int)(480 + Math.random() * 960),968 - Game.getGroundLevel(),102,102);
 
         texID = variant * 9;
 
@@ -71,7 +71,7 @@ public class Duck extends Enemy{
             quadrants.clear(0);
             quadrants.clear(3);
         }
-        else if(posY > 878) { // 1080 - height - 100
+        else if(posY > 878 - Game.getGroundLevel()) { // 1080 - height - 100 - groundLevel
             quadrants.clear(1);
             quadrants.clear(2);
         }
@@ -223,7 +223,7 @@ public class Duck extends Enemy{
             return;
         }
 
-        if(posX < 60 || posX > 1758 || posY < 60 || posY > 918 ){
+        if(posX < 60 || posX > 1758 || posY < 60 || posY > 918 - Game.getGroundLevel() ){
             updateMovement();
         }
         int chance = (int)(Math.random() * 1000);
@@ -239,7 +239,7 @@ public class Duck extends Enemy{
     private void animUpdate(int dT){
         animUpdateCooldown += dT;
         if(animUpdateCooldown > 160){
-            texID = currentAnimState.update();
+            texID = currentAnimState.updateBounce();
             if(currentAnimState == animStates[4]){
                 flip = !flip;
             }

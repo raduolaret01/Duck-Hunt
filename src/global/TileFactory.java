@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class TileFactory {
 
     private static ArrayList<String> descriptorList = null;
-    public static Tile MakeTile(String descriptor, int x, int y, int w, int h){
+    public static Tile MakeGameTile(String descriptor, int x, int y, int w, int h){
         //Build list on first call
         if(descriptorList == null){
             descriptorList = new ArrayList<>();

@@ -16,24 +16,6 @@ public class Renderer {
     Shader shader = null;
     TextureAtlas TexAt = null;
     int screenW, screenH;
-    float downscaleFactor = 4f;
-
-    public void setDownscaleFactor(int opt){
-        switch (opt){
-            case 0://1080p
-                downscaleFactor = 1f;
-                break;
-            case 1://720p
-                downscaleFactor = 2f/3f;
-                break;
-            case 2://480p
-                downscaleFactor = 10f/27f;
-                break;
-            default:
-                throw new IllegalStateException("Unimplemented resolution!");
-        }
-    }
-
 
     float[] vertices = new float[16];
     final int[] indices = {
@@ -85,7 +67,7 @@ public class Renderer {
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, texture);
 
-        System.out.println( glGetProgramInfoLog(shader.shaderProgramID));
+        //System.out.println( glGetProgramInfoLog(shader.shaderProgramID));
     }
 
     void Draw(){
@@ -134,7 +116,7 @@ public class Renderer {
             vertices[j+3] = texC[i+1];
         }
 
-        //Buffer Data Streaming through re-specification (planned) (MAYBE)
+        //Buffer Data Streaming through re-specification (planned) (MAYBE) (HIGHLY UNLIKELY)
         glBufferData(GL_ARRAY_BUFFER, vertices, GL_DYNAMIC_DRAW);
 
         glBindVertexArray(VAO);

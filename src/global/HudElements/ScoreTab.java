@@ -33,7 +33,7 @@ public class ScoreTab extends GraphicObject {
         int tens = 1;
         for(int i = 5; i >= 0; --i){
             Integer temp = (score / tens) % 10;
-            scoreTiles[i] = TileFactory.MakeTile(temp.toString(),posX + 12 + 32 * i,posY + 12,32,32);
+            scoreTiles[i] = TileFactory.MakeGameTile(temp.toString(),posX + 12 + 32 * i,posY + 12,32,32);
             tens *= 10;
         }
     }

@@ -13,7 +13,7 @@ import static org.lwjgl.opengl.GL33.*;
 import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.*;
 
-//TODO: Implement settings (and resolution)
+//TODO: Implement menus
 
 public class Application {
 
@@ -41,10 +41,12 @@ public class Application {
 
     //Update settings
     public static void updateSettings(Settings settings) {
-        glViewport(0,0, settings.getResolutionW(), settings.getResolutionH());
         glfwSetWindowSize(window, settings.getResolutionW(), settings.getResolutionH());
+        glViewport(0,0, settings.getResolutionW(), settings.getResolutionH());
+        //glfwSetWindowMonitor(window, glfwGetPrimaryMonitor(), 0,0,settings.getResolutionW(), settings.getResolutionH(), 60);
         //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
         Application.settings = settings;
+
     }
 
     public void run() {
@@ -79,27 +81,45 @@ public class Application {
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // the window will stay hidden after creation
+        //
+        glfwWindowHint(GLFW_CENTER_CURSOR, GLFW_TRUE);
+        glfwWindowHint(GLFW_SCALE_TO_MONITOR, GLFW_TRUE);
         //Use current monitor video mode for "borderless fullscreen"
-        GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-        glfwWindowHint(GLFW_RED_BITS, vidmode.redBits());
-        glfwWindowHint(GLFW_GREEN_BITS, vidmode.greenBits());
-        glfwWindowHint(GLFW_BLUE_BITS, vidmode.blueBits());
-        glfwWindowHint(GLFW_REFRESH_RATE, vidmode.refreshRate());
+//        GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+//        glfwWindowHint(GLFW_RED_BITS, vidmode.redBits());
+//        glfwWindowHint(GLFW_GREEN_BITS, vidmode.greenBits());
+//        glfwWindowHint(GLFW_BLUE_BITS, vidmode.blueBits());
+//        glfwWindowHint(GLFW_REFRESH_RATE, vidmode.refreshRate());
         //glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will NOT be resizable (a few resolutions maybe if I implement options menu)
 
         //Default setting for now
-        settings = new Settings(vidmode.width(), vidmode.height(),100);
+        //settings = new Settings(vidmode.width(), vidmode.height(),100);
+        settings = new Settings(1920,1080,100);
 
         // Create the window
         window = glfwCreateWindow(settings.getResolutionW(), settings.getResolutionH(), "Hello World!", glfwGetPrimaryMonitor(), NULL);
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 
-        //global.Cursor position callback (custom cursor object)
-        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+        //Use GLFW virtual cursor, as hardware cursor would switch coordinate systems on resolution change
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        //global.Cursor position callback
         glfwSetCursorPosCallback(window, (window, xpos, ypos) -> {
+            //If cursor goes out of window, bring it back
+            if (xpos < 0d) {
+                xpos = 0d;
+            } else if (xpos > 1920d) {
+                xpos = 1920d;
+            }
+            if (ypos < 0d) {
+                ypos = 0d;
+            } else if (ypos > 1080d) {
+                ypos = 1080d;
+            }
+            glfwSetCursorPos(window,xpos,ypos);
             pointer.update(xpos, ypos);
         });
+
 
         // Make the OpenGL context current
         glfwMakeContextCurrent(window);
@@ -112,9 +132,16 @@ public class Application {
 
         // Make the window visible
         glfwShowWindow(window);
+        glViewport(0,0, settings.getResolutionW(), settings.getResolutionH());
+
+//        //
+//        glfwSetFramebufferSizeCallback(window, (window, x, y) -> {
+//            glViewport(0,0, x, y);
+//            System.out.println("Framebuffer size: W:" + x + " H:" + y);
+//        });
 
         //Initialise renderer
-        renderContext.init(vidmode.width(), vidmode.height());
+        renderContext.init(1920, 1080);
 
         states[1] = new Game();
         states[0] = new Menu();

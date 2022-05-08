@@ -86,7 +86,7 @@ public class TextureAtlas {
 //            //System.out.println(duck.get(i) + " " + duck.get(i+1) + " " + duck.get(i+2) + " " + duck.get(i+3));
 //            System.out.printf("%h,%h,%h,%h\n",duck.get(i),duck.get(i+1),duck.get(i+2),duck.get(i+3));
 //        }
-        System.out.println(sheetW + " " + sheetH);
+        //System.out.println(sheetW + " " + sheetH);
         //STBImage.stbi_image_free(duck);
     }
 
