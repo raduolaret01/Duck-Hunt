@@ -21,7 +21,7 @@ public class Dog extends GraphicObject{
     private AnimationState currentAnimState;
 
     public Dog(){
-        super(50,-230,1100 - Game.getGroundLevel() - 200,220,200);
+        super(50,-230,1100 - Game.currentLevel.getGroundLevel() - 200,220,200);
         System.out.println(this.posY);
         //Anim states init
         animStates[0] = new AnimationState(texID, 4); //walk
@@ -100,7 +100,7 @@ public class Dog extends GraphicObject{
                     posX = duckPickupPos;
                     this.width = 224;
                     this.height = 232; //different size frames
-                    targetPos = 1000 - Game.getGroundLevel() - this.height;
+                    targetPos = 1000 - Game.currentLevel.getGroundLevel() - this.height;
                     speed = this.height / 750d;
                     updateCooldown = 0;
                     heldDucks = 0;
@@ -114,7 +114,7 @@ public class Dog extends GraphicObject{
                 updateCooldown += dT;
                 if(updateCooldown >= 2000){
                     state = 6;
-                    targetPos = 1070 - Game.getGroundLevel();
+                    targetPos = 1070 - Game.currentLevel.getGroundLevel();
                     updateCooldown = 0;
                 }
                 break;
@@ -135,6 +135,7 @@ public class Dog extends GraphicObject{
             heldDucks = 3;
         }
         duckPickupPos = pos - 44;
+        System.out.println("Duck picked up!");
     }
 
     public boolean isInBackground(){

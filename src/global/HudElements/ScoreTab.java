@@ -25,7 +25,7 @@ public class ScoreTab extends GraphicObject {
 
     @Override
     public void update() {
-        int amount = Game.getDucksShot() * 25;
+        int amount = Game.currentLevel.getDucksShot() * 25;
         score+=amount;
         if(score > 999999){
             score = 999999;

@@ -21,4 +21,11 @@ public abstract class Enemy extends GraphicObject {
 
     public abstract void kill();
 
+    public int getCenterX(){
+        return posX + width / 2;
+    }
+
+    public int getCenterY(){
+        return posY + height / 2;
+    }
 }

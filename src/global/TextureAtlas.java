@@ -64,7 +64,7 @@ public class TextureAtlas {
             if(spriteSheet == null){
                 System.err.println("Error loading Image data!");
             }
-            System.out.println(channels.get(0));
+            //System.out.println(channels.get(0));
             sheetW = width.get(0);
             sheetH = height.get(0);
         }

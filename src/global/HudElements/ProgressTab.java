@@ -36,10 +36,10 @@ public class ProgressTab extends GraphicObject {
         if(timeElapsed >= 40f){
             timeElapsed -= 40f;
         }
-        hitDucks += Game.getDucksShot();
+        hitDucks += Game.currentLevel.getDucksShot();
         if(hitDucks >= maxDucks){
             hitDucks = 0;
-            Game.advanceRound();
+            Game.currentLevel.advanceRound();
         }
 
         int i = 0;

@@ -25,7 +25,7 @@ public class RoundCounter extends GraphicObject {
 
     @Override
     public void update() {
-        round = Game.getRound();
+        round = Game.currentLevel.getRound();
         int tens = 1;
         for(int i = 1; i >= 0; --i) {
             Integer temp = (round / tens) % 10;

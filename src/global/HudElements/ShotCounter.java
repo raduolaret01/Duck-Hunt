@@ -32,7 +32,7 @@ public class ShotCounter extends GraphicObject {
 
     @Override
     public void update() {
-        if(Game.getDucksShot() == 0){
+        if(Game.currentLevel.getDucksShot() == 0){
             misses++;
         }
         if(misses > 3){
