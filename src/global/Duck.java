@@ -2,10 +2,6 @@ package global;
 
 import java.util.BitSet;
 
-// TODO: replace hard-coded references to window size with resolution dimensions
-// Can "juggle" already dead ducks: Bug or Feature?
-// Update: definetly bug, fixed
-
 public class Duck extends Enemy{
 
     private int variant = (int) (Math.random() * 3d);
@@ -25,7 +21,7 @@ public class Duck extends Enemy{
         //Starting x position : 480 + rand*960
         //Starting y position : 1080 - 102 - Game.groundLevel
 
-        super(0, (int)(480 + Math.random() * 960),968 - Game.currentLevel.getGroundLevel(),102,102);
+        super(0, (int)(480 + Math.random() * 960),728,102,102);
 
         texID = variant * 9;
 
@@ -54,7 +50,7 @@ public class Duck extends Enemy{
             slope = 0d;
             return;
         }
-        speed = 0.25d + Math.random() * 0.25d;
+        speed = (0.25d + Math.random() * 0.25d) * Level.getDifficulty();
         //Quadrants of cartesian coordonate system, centered on duck
         BitSet quadrants = new BitSet(4);
         quadrants.set(0,4);
@@ -71,7 +67,7 @@ public class Duck extends Enemy{
             quadrants.clear(0);
             quadrants.clear(3);
         }
-        else if(posY > 878 - Game.currentLevel.getGroundLevel()) { // 1080 - height - 100 - groundLevel
+        else if(posY > 638) { // 1080 - height - 100 - groundLevel
             quadrants.clear(1);
             quadrants.clear(2);
         }
@@ -93,13 +89,13 @@ public class Duck extends Enemy{
             case -1:
                 throw new IllegalStateException("global.Duck movement update failed! No available direction found!");
             case 0:
-                if (quadrants.get(1)){ // Left
+                if (quadrants.get(1)){          // Left
                     direction = 0;
                     currentAnimState.reset();
                     currentAnimState = animStates[1];
                     flip = false;
                 }
-                else if(quadrants.get(3)){ // Up (and left)
+                else if(quadrants.get(3)){      // Up (and left)
                     direction = 3;
                     currentAnimState.reset();
                     currentAnimState = animStates[0];
@@ -114,14 +110,14 @@ public class Duck extends Enemy{
                 }
                 break;
             case 1:
-                if(quadrants.get(0)){ // Left
+                if(quadrants.get(0)){           // Left
                     direction = 0;
                     slope = -slope;
                     currentAnimState.reset();
                     currentAnimState = animStates[1];
                     flip = false;
                 }
-                else if(quadrants.get(2)) { // Down (and left)
+                else if(quadrants.get(2)) {     // Down (and left)
                     direction = 1;
                     currentAnimState.reset();
                     currentAnimState = animStates[2];
@@ -136,14 +132,14 @@ public class Duck extends Enemy{
                 }
                 break;
             case 2:
-                if(quadrants.get(1)){ // Down (but to the right this time)
+                if(quadrants.get(1)){           // Down (but to the right this time)
                     direction = 1;
                     slope = -slope;
                     currentAnimState.reset();
                     currentAnimState = animStates[2];
                     flip = true;
                 }
-                else if(quadrants.get(3)) { // Right (and down)
+                else if(quadrants.get(3)) {     // Right (and down)
                     direction = 2;
                     slope = -slope;
                     currentAnimState.reset();
@@ -159,13 +155,13 @@ public class Duck extends Enemy{
                 }
                 break;
             case 3:
-                if(quadrants.get(2)){ // Right (and up)
+                if(quadrants.get(2)){           // Right (and up)
                     direction = 2;
                     currentAnimState.reset();
                     currentAnimState = animStates[1];
                     flip = true;
                 }
-                else if(quadrants.get(0)) { // Up (but to the right)
+                else if(quadrants.get(0)) {     // Up (but to the right)
                     direction = 3;
                     slope = -slope;
                     currentAnimState.reset();
@@ -223,7 +219,7 @@ public class Duck extends Enemy{
             return;
         }
 
-        if(posX < 60 || posX > 1758 || posY < 60 || posY > 918 - Game.currentLevel.getGroundLevel() ){
+        if(posX < 60 || posX > 1758 || posY < 60 || posY > 678 ){
             updateMovement();
         }
         int chance = (int)(Math.random() * 1000);

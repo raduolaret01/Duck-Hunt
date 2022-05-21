@@ -12,7 +12,7 @@ public class Game extends ApplicationState {
 
     private boolean pauseFlag = false;
     public static Level currentLevel;
-    private Level[] levels = new Level[3];
+    private static Level[] levels = new Level[3];
 
     @Override
     protected void init() {

@@ -10,13 +10,15 @@ public class ProgressTab extends GraphicObject {
     }
 
     //Default size (for 1080p): 472 * 84
-    public ProgressTab(int x, int y){
+    public ProgressTab(int x, int y, int ducks){
         super(45, x, y, 472, 84);
+        maxDucks = ducks;
+        duckTiles = new Tile[10];
     }
-    private int maxDucks = 10;
+    private int maxDucks;
     private int hitDucks = 0;
     private float timeElapsed = 0;
-    private Tile[] duckTiles = new Tile[maxDucks];
+    private Tile[] duckTiles;
     private Tile timerTile = TileFactory.MakeGameTile("Black", 0,0,8,8);
 
     @Override
@@ -39,8 +41,8 @@ public class ProgressTab extends GraphicObject {
         hitDucks += Game.currentLevel.getDucksShot();
         if(hitDucks >= maxDucks){
             hitDucks = 0;
-            Game.currentLevel.advanceRound();
         }
+        updateMaxDucks(Game.currentLevel.getDucks());
 
         int i = 0;
         while(i < hitDucks){
@@ -51,5 +53,14 @@ public class ProgressTab extends GraphicObject {
             duckTiles[i] = TileFactory.MakeGameTile("DuckAlive",posX + 140 + i * 32,posY + 12,32,32);
             ++i;
         }
+        while(i < 10){
+            duckTiles[i] = TileFactory.MakeGameTile("Black",posX + 140 + i * 32,posY + 12,32,32);
+            ++i;
+        }
+    }
+
+    public void updateMaxDucks(int max){
+        maxDucks = max;
+        timeElapsed = 0f;
     }
 }

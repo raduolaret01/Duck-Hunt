@@ -1,8 +1,10 @@
 package global;
 
+import java.util.ArrayList;
+
 public abstract class Level {
 
-    protected Enemy[] enemies;
+    protected ArrayList<Enemy> enemies;
     /** 0 = Shots, 1 = Round Progress, 2 = Score, 3 = Round number, 4 = GrassTile(for now) */
     protected GraphicObject[] HudObjects = new GraphicObject[5];
 
@@ -22,6 +24,10 @@ public abstract class Level {
         HudObjects[0].update();
     }
 
+    /** 0 = Level start, 1 = During round, 2 = Between rounds, 3 = Game Over */
+    protected static int state = 0;
+    protected static int updateCooldown = 0;
+
     //Information needed for Hud Elements
     /** number of ducks in current round */
     protected static int ducks;
@@ -29,8 +35,10 @@ public abstract class Level {
     protected static int ducksShot = 0;
     /** current round */
     protected static int round = 1;
-    /** Level above which enemies spawn */
-    protected static int groundLevel = 240;
+
+    public static int getDucks(){
+        return ducks;
+    }
 
     public static int getDucksShot(){
         return ducksShot;
@@ -40,12 +48,17 @@ public abstract class Level {
         return round;
     }
 
-    public static void advanceRound(){
-        ++round;
+    public static double getDifficulty(){
+        return 1d + (double)round / 100d;
     }
 
-    public static int getGroundLevel(){
-        return groundLevel;
+    public static int advanceRound(){
+        ++round;
+        if(ducks < 10){
+            ++ducks;
+        }
+        return ducks;
     }
+
 
 }

@@ -5,6 +5,8 @@ import global.HudElements.RoundCounter;
 import global.HudElements.ScoreTab;
 import global.HudElements.ShotCounter;
 
+import java.util.ArrayList;
+
 public class Level_1 extends Level{
 
     private Dog dog = new Dog();
@@ -12,13 +14,15 @@ public class Level_1 extends Level{
     @Override
     public void init() {
 
-        enemies = new Duck[10];
-        for(int i = 0; i < 10; ++i){
-            enemies[i] = new Duck();
+        ducks = 3;
+
+        enemies = new ArrayList<Enemy>(10);
+        for(int i =  0; i < 10; ++i){
+            enemies.add(null);
         }
 
         HudObjects[0] = new ShotCounter(224,938);
-        HudObjects[1] = new ProgressTab(724,938);
+        HudObjects[1] = new ProgressTab(724,938, ducks);
         HudObjects[2] = new ScoreTab(1514,938);
         HudObjects[3] = new RoundCounter(224,838);
         HudObjects[4] = new Tile(49,0,716,1920,368);
@@ -32,7 +36,7 @@ public class Level_1 extends Level{
     @Override
     public void killAround(int x, int y) {
         for(Enemy ducky : enemies){
-            if(!ducky.isDead && Math.abs(ducky.getCenterX() - x) <= 77 && Math.abs(ducky.getCenterY() - y) <= 77){
+            if(ducky!=null && !ducky.isDead && Math.abs(ducky.getCenterX() - x) <= 77 && Math.abs(ducky.getCenterY() - y) <= 77){
                 ducky.kill();
                 ++ducksShot;
             }
@@ -43,33 +47,59 @@ public class Level_1 extends Level{
 
     @Override
     public void update() {
-        /*for(Enemy enemy : enemies){
-            enemy.update();
-            if(enemy.isDead &&  enemy.posY > 1080 - enemy.height - groundLevel){ //1080 - duck.Height - GroundLevel
-                dog.grabDuckAt(enemy.posX);
-                enemy = new Duck();
-            }
-        }*/
-        for (int i =0; i<10; ++i){
-            enemies[i].update();
-            if(enemies[i].isDead && enemies[i].posY > 1080 - groundLevel){
-                dog.grabDuckAt(enemies[i].posX);
-                enemies[i] = new Duck();
-            }
+        switch (state) {
+            case 0:
+                dog.update();
+                if(dog.isInBackground()) {
+                    for (int i = 0; i < ducks; ++i) {
+                        enemies.set(i, new Duck());
+                    }
+                    state = 1;
+                }
+                break;
+            case 1:
+                for (int i = 0; i < ducks; ++i) {
+                    if (enemies.get(i) != null) {
+                        enemies.get(i).update();
+                        if (enemies.get(i).isDead && enemies.get(i).posY > 840) {
+                            dog.grabDuckAt(enemies.get(i).posX);
+                            enemies.set(i, null);
+                        }
+                    }
+                }
+                dog.update();
+                //Update Hud Elements
+                HudObjects[1].update();
+                HudObjects[3].update();
+
+                ducksShot = 0;
+
+                state = 2;
+                for (int i = 0; i < ducks; ++i) {
+                    if (enemies.get(i) != null) {
+                        state = 1;
+                    }
+                }
+                break;
+            case 2:
+                HudObjects[3].update();
+                dog.update();
+                updateCooldown += Timer.getDeltaTime();
+                if(updateCooldown >= 2000){
+                    advanceRound();
+                    respawnDucks();
+                    state = 1;
+                    updateCooldown = 0;
+                }
+
         }
-        dog.update();
-        //Update Hud Elements
-        HudObjects[1].update();
-        HudObjects[3].update();
-
-        ducksShot = 0;
     }
-
     @Override
     public void draw() {
         for(Enemy enemy : enemies){
-            enemy.draw();
-
+            if(enemy != null) {
+                enemy.draw();
+            }
         }
         if(dog.isInBackground()){
             dog.draw();
@@ -85,5 +115,14 @@ public class Level_1 extends Level{
         }
 
         ducksShot = 0;
+    }
+
+    private void respawnDucks(){
+        for(int i = 0; i < ducks; ++i){
+            enemies.set(i, new Duck());
+        }
+        for(int i = ducks; i < 10; ++i){
+            enemies.set(i, null);
+        }
     }
 }
