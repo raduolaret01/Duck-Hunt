@@ -11,7 +11,7 @@ public class ProgressTab extends GraphicObject {
 
     //Default size (for 1080p): 472 * 84
     public ProgressTab(int x, int y, int ducks){
-        super(45, x, y, 472, 84);
+        super(44, x, y, 472, 84);
         maxDucks = ducks;
         duckTiles = new Tile[10];
     }
@@ -38,12 +38,13 @@ public class ProgressTab extends GraphicObject {
         if(timeElapsed >= 40f){
             timeElapsed -= 40f;
         }
-        hitDucks += Game.currentLevel.getDucksShot();
+        hitDucks += Level.getDucksShot();
         if(hitDucks >= maxDucks){
             hitDucks = 0;
         }
-        updateMaxDucks(Game.currentLevel.getDucks());
+        maxDucks = Level.getDucks();
 
+        //This block (and HUD elements in general) can be greatly optimized
         int i = 0;
         while(i < hitDucks){
             duckTiles[i] = TileFactory.MakeGameTile("DuckDead",posX + 140 + i * 32,posY + 12,32,32);
@@ -57,10 +58,5 @@ public class ProgressTab extends GraphicObject {
             duckTiles[i] = TileFactory.MakeGameTile("Black",posX + 140 + i * 32,posY + 12,32,32);
             ++i;
         }
-    }
-
-    public void updateMaxDucks(int max){
-        maxDucks = max;
-        timeElapsed = 0f;
     }
 }

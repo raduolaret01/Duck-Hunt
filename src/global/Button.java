@@ -2,13 +2,13 @@ package global;
 
 public class Button extends GraphicObject {
 
-    public Button(int x, int y, int w, int h){
-        super(43, x, y, w, h);
+    public Button(int tex ,int x, int y, int w, int h){
+        super(tex, x, y, w, h);
     }
 
     @Override
     public void draw() {
-
+        Renderer.getInstance().DrawObject(this);
     }
 
     @Override

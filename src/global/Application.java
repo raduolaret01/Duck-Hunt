@@ -144,7 +144,7 @@ public class Application {
         renderContext.init(1920, 1080);
 
         states[1] = new Game();
-        states[0] = new Menu();
+        states[0] = new MainMenu();
         currentState = states[0];
 
         Timer.startTime();
@@ -160,7 +160,7 @@ public class Application {
             Timer.setDeltaTime();
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
-            renderContext.DrawObject(pointer);
+            pointer.draw();
 
             currentState.init();
 

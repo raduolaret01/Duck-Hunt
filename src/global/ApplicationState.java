@@ -13,5 +13,4 @@ public abstract class ApplicationState {
 
     protected abstract void init();
     protected abstract int loop();
-    protected abstract int unloadState();
 }

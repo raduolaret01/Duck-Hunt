@@ -14,16 +14,26 @@ public class Game extends ApplicationState {
     public static Level currentLevel;
     private static Level[] levels = new Level[3];
 
+    public static void LoadLevel(int id){
+        switch (id){
+            case 1:
+                currentLevel = new Level_1();
+                break;
+                //TODO: Implement the rest of the levels
+            default:
+                throw new IllegalStateException("Level " + id + " not implemented!");
+        }
+    }
+
     @Override
     protected void init() {
         window = Application.getWindow();
-        background = TileFactory.MakeGameTile("Level1Background",0,0,1920,1080);
+        background = TileFactory.MakeBGTile(1);
 
         exitFlag = false;
         pauseFlag = false;
 
-        levels[0] = new Level_1();
-        currentLevel = levels[0];
+        //currentLevel = new Level_1();
 
         //Mouse callback to shoot on click
         glfwSetMouseButtonCallback(window, (window, button, action, mods) ->{
@@ -86,8 +96,4 @@ public class Game extends ApplicationState {
         return 0;
     }
 
-    @Override
-    protected int unloadState() {
-        return 0;
-    }
 }

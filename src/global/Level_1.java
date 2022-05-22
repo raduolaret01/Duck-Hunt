@@ -25,7 +25,7 @@ public class Level_1 extends Level{
         HudObjects[1] = new ProgressTab(724,938, ducks);
         HudObjects[2] = new ScoreTab(1514,938);
         HudObjects[3] = new RoundCounter(224,838);
-        HudObjects[4] = new Tile(49,0,716,1920,368);
+        HudObjects[4] = new Tile(65,0,716,1920,368);
 
         for(int i = 1; i < 4; ++i){
             HudObjects[i].update();

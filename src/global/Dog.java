@@ -21,7 +21,7 @@ public class Dog extends GraphicObject{
     private AnimationState currentAnimState;
 
     public Dog(){
-        super(50,-230,660,220,200);
+        super(48,-230,660,220,200);
         System.out.println(this.posY);
         //Anim states init
         animStates[0] = new AnimationState(texID, 4); //walk

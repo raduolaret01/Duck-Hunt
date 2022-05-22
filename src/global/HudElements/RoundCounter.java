@@ -9,7 +9,7 @@ public class RoundCounter extends GraphicObject {
 
     //Default size: 152 * 48
     public RoundCounter(int x, int y){
-        super(47,x,y,152, 48);
+        super(46,x,y,152, 48);
     }
 
     private int round;

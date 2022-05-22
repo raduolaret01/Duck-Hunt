@@ -13,7 +13,7 @@ public class ShotCounter extends GraphicObject {
 
     //Default size: 120 * 84
     public ShotCounter(int x, int y){
-        super(46,x,y,120, 84);
+        super(45,x,y,120, 84);
         for(int i = 0; i < 3; ++i){
             shotsTiles[i] = TileFactory.MakeGameTile("Cartridge",posX + 76 - 32 * i,posY + 8,32,32);
         }

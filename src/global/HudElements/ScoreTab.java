@@ -9,7 +9,7 @@ public class ScoreTab extends GraphicObject {
 
     //Default size: 212 * 84
     public ScoreTab(int x, int y){
-        super(44, x, y, 212, 84);
+        super(43, x, y, 212, 84);
     }
 
     private int score = 0;
