@@ -26,17 +26,17 @@ public class Application {
     private Renderer renderContext = Renderer.getInstance();
     private Cursor pointer = Cursor.getInstance();
     private ApplicationState[] states = new ApplicationState[5];
-    private ApplicationState currentState, nextState;
+    private static int currentState, nextState, lastState;
+
+    public static int getLastState(){
+        return lastState;
+    }
 
     //global.Settings
     private static Settings settings;
 
     public static Settings getSettings() {
         return settings;
-    }
-
-    public void setSettings(Settings settings) {
-        this.settings = settings;
     }
 
     //Update settings
@@ -46,7 +46,6 @@ public class Application {
         //glfwSetWindowMonitor(window, glfwGetPrimaryMonitor(), 0,0,settings.getResolutionW(), settings.getResolutionH(), 60);
         //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
         Application.settings = settings;
-
     }
 
     public void run() {
@@ -143,9 +142,11 @@ public class Application {
         //Initialise renderer
         renderContext.init(1920, 1080);
 
-        states[1] = new Game();
         states[0] = new MainMenu();
-        currentState = states[0];
+        states[1] = new Game();
+        states[2] = new LevelSelectMenu();
+        states[3] = new OptionsMenu();
+        currentState = 0;
 
         Timer.startTime();
     }
@@ -162,17 +163,23 @@ public class Application {
 
             pointer.draw();
 
-            currentState.init();
+            states[currentState].init();
 
-            nextState = states[ currentState.loop() ];
+            nextState = states[currentState].loop();
 
             glfwSwapBuffers(window); // swap the color buffers
 
             // Poll for window events.
             glfwPollEvents();
 
+            if(currentState == 5 || currentState == 4) {
+                lastState = 0;
+            }
+            else {
+                lastState = currentState;
+            }
             currentState = nextState;
-            nextState = null;
+            nextState = 0;
         }
     }
 //

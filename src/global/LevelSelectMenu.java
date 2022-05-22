@@ -4,20 +4,22 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
 
-public class MainMenu extends Menu{
+public class LevelSelectMenu extends Menu {
 
     private Tile backdrop = new Tile(67, 750,390,420,500);
 
     @Override
     protected void init() {
-        buttons = new Button[3];
+
+        buttons = new Button[4];
         this.window = Application.getWindow();
 
-        buttons[0] = TileFactory.MakeButton("PlayGame",850, 440, 220,100);
-        buttons[1] = TileFactory.MakeButton("Options", 850, 590, 220,100);
-        buttons[2] = TileFactory.MakeButton("Leaderboard", 850, 740, 220, 100);
+        buttons[0] = TileFactory.MakeButton("Level1",850, 440, 220,100);
+        buttons[1] = TileFactory.MakeButton("Level2", 850, 590, 220,100);
+        buttons[2] = TileFactory.MakeButton("Level3", 850, 740, 220, 100);
+        buttons[3] = TileFactory.MakeButton("Back",1670,950,220,100);
         background = TileFactory.MakeBGTile((int)(Math.random() * 2d) + 1);
-        title = new Tile(128, 660,80,600,300);
+        title = new Tile(132, 510,80,900,300);
 
         pressedButton = -1;
 
@@ -31,7 +33,7 @@ public class MainMenu extends Menu{
         // Setup button click callback
         glfwSetMouseButtonCallback(window, (window, button, action, mods) ->{
             if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS){
-                for(int i = 0; i < 3; ++i){
+                for(int i = 0; i < 4; ++i){
                     if(buttons[i].mouseOver(pointer.posX+25, pointer.posY+25)){
                         pressedButton = i;
                     }
@@ -47,14 +49,14 @@ public class MainMenu extends Menu{
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
-        while ( !glfwWindowShouldClose(window) ) {
+        while ( !glfwWindowShouldClose(window)) {
             Timer.setDeltaTime();
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
             background.draw();
             backdrop.draw();
             title.draw();
 
-            for(int i = 0; i < 3; ++i){
+            for(int i = 0; i < 4; ++i){
                 buttons[i].draw();
             }
 
@@ -64,8 +66,18 @@ public class MainMenu extends Menu{
 
             // Poll for window events.
             glfwPollEvents();
-            if(pressedButton == 0){
-                return 2;
+            switch (pressedButton){
+                case -1:
+                    break;
+                case 0:
+                case 1:
+                case 2:
+                    Game.LoadLevel(pressedButton + 1);
+                    return 1;
+                case 3:
+                    return Application.getLastState();
+                default:
+                    throw new IllegalStateException("Illegal pressedButton value at LevelSelectMenu: " + pressedButton);
             }
         }
         return 0;
