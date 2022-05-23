@@ -25,7 +25,7 @@ public class Application {
 
     private Renderer renderContext = Renderer.getInstance();
     private Cursor pointer = Cursor.getInstance();
-    private ApplicationState[] states = new ApplicationState[5];
+    private ApplicationState[] states = new ApplicationState[9];
     private static int currentState, nextState, lastState;
 
     public static int getLastState(){
@@ -146,8 +146,14 @@ public class Application {
         states[1] = new Game();
         states[2] = new LevelSelectMenu();
         states[3] = new OptionsMenu();
+        states[4] = new ResolutionConfirmMenu();
+        states[5] = new ScoreDelConfirmMenu();
+        states[6] = new GameOverMenu();
+        states[7] = new NewTopScoreMenu();
+        states[8] = new LeaderboardMenu();
         currentState = 0;
 
+        DataManager.Init();
         Timer.startTime();
     }
 
@@ -174,6 +180,9 @@ public class Application {
 
             if(currentState == 5 || currentState == 4) {
                 lastState = 0;
+            }
+            else if(currentState == 7){
+                lastState = 1;
             }
             else {
                 lastState = currentState;

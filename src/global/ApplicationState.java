@@ -6,7 +6,6 @@ public abstract class ApplicationState {
     public void setWindow(long win){
         this.window = win;
     }
-    protected boolean exitFlag = false;
     protected Renderer renderContext = Renderer.getInstance();
     protected Cursor pointer = Cursor.getInstance();
     protected Tile background;

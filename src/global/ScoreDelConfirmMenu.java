@@ -14,8 +14,8 @@ public class ScoreDelConfirmMenu extends Menu {
             buttons = new Button[2];
             this.window = Application.getWindow();
 
-            buttons[0] = TileFactory.MakeButton("Yes",754, 532, 220,100);
-            buttons[1] = TileFactory.MakeButton("No", 982, 532, 16,32);
+            buttons[0] = TileFactory.MakeButton("Yes",754, 532, 180,100);
+            buttons[1] = TileFactory.MakeButton("No", 982, 532, 180,100);
             background = TileFactory.MakeBGTile((int)(Math.random() * 2d) + 1);
             title = new Tile(130, 510,80,900,150);
 

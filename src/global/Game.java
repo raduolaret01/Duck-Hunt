@@ -10,7 +10,6 @@ import static org.lwjgl.opengl.GL33.*;
 
 public class Game extends ApplicationState {
 
-    private boolean pauseFlag = false;
     public static Level currentLevel;
     private static Level[] levels = new Level[3];
 
@@ -25,15 +24,22 @@ public class Game extends ApplicationState {
         }
     }
 
+    private static boolean exitFlag;
+
+    public static void setExitFlag(boolean flag){
+        exitFlag = flag;
+    }
+
     @Override
     protected void init() {
         window = Application.getWindow();
         background = TileFactory.MakeBGTile(1);
 
         exitFlag = false;
-        pauseFlag = false;
 
         //currentLevel = new Level_1();
+
+
 
         //Mouse callback to shoot on click
         glfwSetMouseButtonCallback(window, (window, button, action, mods) ->{
@@ -68,7 +74,7 @@ public class Game extends ApplicationState {
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE or N keys.
-        while ( !glfwWindowShouldClose(window) && !exitFlag && !pauseFlag) {
+        while ( !glfwWindowShouldClose(window) && !exitFlag) {
             Timer.setDeltaTime();
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
@@ -87,13 +93,9 @@ public class Game extends ApplicationState {
             // Poll for window events.
             glfwPollEvents();
         }
-        if(pauseFlag){
-            return 2;
-        }
-        // Reset exit flag to be able to re-enter game later.
-        // Could be raplaced by deleting and reinstantiating global.Game whenever we want to load another level
-        exitFlag = false;
-        return 0;
+
+        //if(DataManager.isNewTopScore(ScoreTab.getScore))
+        return 6;
     }
 
 }

@@ -14,10 +14,10 @@ public class LevelSelectMenu extends Menu {
         buttons = new Button[4];
         this.window = Application.getWindow();
 
-        buttons[0] = TileFactory.MakeButton("Level1",850, 440, 220,100);
-        buttons[1] = TileFactory.MakeButton("Level2", 850, 590, 220,100);
-        buttons[2] = TileFactory.MakeButton("Level3", 850, 740, 220, 100);
-        buttons[3] = TileFactory.MakeButton("Back",1670,950,220,100);
+        buttons[0] = TileFactory.MakeButton("Level1",870, 440, 180,100);
+        buttons[1] = TileFactory.MakeButton("Level2", 870, 590, 180,100);
+        buttons[2] = TileFactory.MakeButton("Level3", 870, 740, 180, 100);
+        buttons[3] = TileFactory.MakeButton("Back",1670,950,180,100);
         background = TileFactory.MakeBGTile((int)(Math.random() * 2d) + 1);
         title = new Tile(132, 510,80,900,300);
 

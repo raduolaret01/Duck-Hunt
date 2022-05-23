@@ -64,8 +64,17 @@ public class MainMenu extends Menu{
 
             // Poll for window events.
             glfwPollEvents();
-            if(pressedButton == 0){
-                return 2;
+            switch (pressedButton){
+                case -1:
+                    break;
+                case 0:
+                    return 2;
+                case 1:
+                    return 3;
+                case 2:
+                    return 8;
+                default:
+                    throw new IllegalStateException("Illegal pressedButton value at MainMenu: " + pressedButton);
             }
         }
         return 0;

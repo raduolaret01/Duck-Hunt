@@ -7,12 +7,11 @@ public class ScoreTab extends GraphicObject {
         super(44, x, y, w, h);
     }
 
-    //Default size: 212 * 84
     public ScoreTab(int x, int y){
         super(43, x, y, 212, 84);
     }
 
-    private int score = 0;
+    private static int score = 0;
     private Tile[] scoreTiles = new Tile[6];
 
     @Override
@@ -36,6 +35,10 @@ public class ScoreTab extends GraphicObject {
             scoreTiles[i] = TileFactory.MakeGameTile(temp.toString(),posX + 12 + 32 * i,posY + 12,32,32);
             tens *= 10;
         }
+    }
+
+    public static int getScore(){
+        return score;
     }
 
 }

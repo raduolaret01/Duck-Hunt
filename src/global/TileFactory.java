@@ -8,7 +8,7 @@ public class TileFactory {
     public static Tile MakeGameTile(String descriptor, int x, int y, int w, int h){
         //Build list on first call
         if(tileDescriptorList == null){
-            tileDescriptorList = new ArrayList<>();
+            tileDescriptorList = new ArrayList<>(16);
             tileDescriptorList.add("0");
             tileDescriptorList.add("1");
             tileDescriptorList.add("2");
@@ -43,10 +43,10 @@ public class TileFactory {
  * Currently a-z and 0-9 only. */
     public static Tile MakeSBTile(char c, int x, int y, int w, int h){
         if(c >='a' && c <= 'z'){
-            return new Tile (c-6, x, y, w, h);
+            return new Tile (c-5, x, y, w, h);
         }
         else if(c >= '0' && c <= '9'){
-            return new Tile(c + 69, x, y, w, h);
+            return new Tile(c + 70, x, y, w, h);
         }
         else{
             throw new IllegalArgumentException("Invalid TileFactory SBTile Request!: " + c);

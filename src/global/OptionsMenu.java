@@ -6,7 +6,7 @@ import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
 
 public class OptionsMenu extends Menu{
 
-    private Settings tempSettings = new Settings(Application.getSettings());
+    private Settings tempSettings;
     private int resoulutionOpt;
     private boolean resChanged;
     private Tile backdropPanel = new Tile(70,698,370,524, 576);
@@ -14,6 +14,8 @@ public class OptionsMenu extends Menu{
 
     @Override
     protected void init() {
+
+        tempSettings = new Settings(Application.getSettings());
 
         switch(tempSettings.getResolutionH()){
             case 1080:
@@ -35,8 +37,8 @@ public class OptionsMenu extends Menu{
 
         buttons[0] = TileFactory.MakeButton("Resolution" + resoulutionOpt,818, 426, 280,100);
         buttons[1] = TileFactory.MakeButton("LeftArrow", 870, 650, 16,32);
-        buttons[2] = TileFactory.MakeButton("RightArrow", 990, 650, 16,32);
-        buttons[3] = TileFactory.MakeButton("ScoreDelete", 818, 746, 280, 100);
+        buttons[2] = TileFactory.MakeButton("RightArrow", 1030, 650, 16,32);
+        buttons[3] = TileFactory.MakeButton("ScoreDelete", 818, 750, 280, 104);
         buttons[4] = TileFactory.MakeButton("Back",1670,950,220,100);
         background = TileFactory.MakeBGTile((int)(Math.random() * 2d) + 1);
         title = new Tile(130, 510,80,900,150);
@@ -60,6 +62,8 @@ public class OptionsMenu extends Menu{
                 }
             }
         });
+
+        updateVolumeDisplay(tempSettings.getVolume());
     }
 
     @Override
@@ -80,12 +84,17 @@ public class OptionsMenu extends Menu{
                 buttons[i].draw();
             }
 
+            for(int i = 0; i < 3; ++i){
+                volumeDisplay[i].draw();
+            }
+
             pointer.draw();
 
             glfwSwapBuffers(window); // swap the color buffers
 
             // Poll for window events.
             glfwPollEvents();
+
             switch (pressedButton) {
                 case -1:
                     break;
@@ -109,11 +118,11 @@ public class OptionsMenu extends Menu{
                     }
                     break;
                 case 1:
-                    tempSettings.increaseVolume(5);
+                    tempSettings.lowerVolume(5);
                     updateVolumeDisplay(tempSettings.getVolume());
                     break;
                 case 2:
-                    tempSettings.lowerVolume(5);
+                    tempSettings.increaseVolume(5);
                     updateVolumeDisplay(tempSettings.getVolume());
                     break;
                 case 3:
@@ -138,7 +147,7 @@ public class OptionsMenu extends Menu{
         int tens = 1;
         for(int i = 2; i >= 0; --i){
             int temp = (vol / tens) % 10;
-            volumeDisplay[i] = TileFactory.MakeSBTile((char) (temp + 48),810 + 32 * i,650,32,32);
+            volumeDisplay[i] = TileFactory.MakeSBTile((char) (temp + 48),910 + 32 * i,650,32,32);
             tens *= 10;
         }
     }

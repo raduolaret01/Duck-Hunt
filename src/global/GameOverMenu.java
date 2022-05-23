@@ -4,27 +4,20 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
 
-public class ResolutionConfirmMenu extends Menu {
+public class GameOverMenu extends Menu {
 
-    private Settings oldSettings;
-    private static Settings newSettings;
-
-    public static void setNewSettings(Settings newSet) {
-        newSettings = newSet;
-    }
-
-    private Tile backdropPanel = new Tile(71,726,400,468, 256);
+    private Tile backdrop = new Tile(67, 750,390,420,500);
 
     @Override
     protected void init() {
-        buttons = new Button[2];
+        buttons = new Button[3];
         this.window = Application.getWindow();
-        oldSettings = Application.getSettings();
 
-        buttons[0] = TileFactory.MakeButton("Yes",754, 532, 180,100);
-        buttons[1] = TileFactory.MakeButton("No", 982, 532, 180,100);
+        buttons[0] = TileFactory.MakeButton("Retry",850, 440, 220,100);
+        buttons[1] = TileFactory.MakeButton("MainMenu", 850, 590, 220,100);
+        buttons[2] = TileFactory.MakeButton("Leaderboard", 850, 740, 220, 100);
         background = TileFactory.MakeBGTile((int)(Math.random() * 2d) + 1);
-        title = new Tile(130, 510,80,900,150);
+        title = new Tile(129, 585,140,750,150);
 
         pressedButton = -1;
 
@@ -38,31 +31,30 @@ public class ResolutionConfirmMenu extends Menu {
         // Setup button click callback
         glfwSetMouseButtonCallback(window, (window, button, action, mods) ->{
             if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS){
-                for(int i = 0; i < 2; ++i){
+                for(int i = 0; i < 3; ++i){
                     if(buttons[i].mouseOver(pointer.posX+25, pointer.posY+25)){
                         pressedButton = i;
                     }
                 }
             }
         });
-
-        Application.updateSettings(newSettings);
     }
 
     @Override
-    protected int loop() {// Set the clear color
+    protected int loop() {
+        // Set the clear color
         glClearColor(1f, 1f, 1f, 1.0f);
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
-        while (!glfwWindowShouldClose(window)) {
+        while ( !glfwWindowShouldClose(window) ) {
             Timer.setDeltaTime();
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
             background.draw();
-            backdropPanel.draw();
+            backdrop.draw();
             title.draw();
 
-            for (int i = 0; i < 2; ++i) {
+            for(int i = 0; i < 3; ++i){
                 buttons[i].draw();
             }
 
@@ -72,16 +64,17 @@ public class ResolutionConfirmMenu extends Menu {
 
             // Poll for window events.
             glfwPollEvents();
-            switch (pressedButton) {
+            switch (pressedButton){
                 case -1:
                     break;
                 case 0:
                     return Application.getLastState();
                 case 1:
-                    Application.updateSettings(oldSettings);
-                    return Application.getLastState();
+                    return 0;
+                case 2:
+                    return 8;
                 default:
-                    throw new IllegalStateException("Illegal pressedButton value at ResConfirmMenu: " + pressedButton);
+                    throw new IllegalStateException("Illegal pressedButton value at GameOverMenu: " + pressedButton);
             }
         }
         return 0;
