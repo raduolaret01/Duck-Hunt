@@ -36,6 +36,7 @@ public class ShotCounter extends GraphicObject {
             misses++;
         }
         if(misses >= 3){
+            misses = 3;
             Level.setGameOver();
         }
         int i = 0;

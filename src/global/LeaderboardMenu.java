@@ -83,7 +83,7 @@ public class LeaderboardMenu extends Menu {
                 case -1:
                     break;
                 case 0:
-                    return 0;
+                    return Application.getLastState();
                 default:
                     throw new IllegalStateException("Illegal pressedButton value at NewTopScoreMenu: " + pressedButton);
             }

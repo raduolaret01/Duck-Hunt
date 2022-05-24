@@ -7,8 +7,7 @@ import global.HudElements.ShotCounter;
 
 import java.util.ArrayList;
 
-public class Level_1 extends Level{
-
+public class Level_2 extends Level{
     private Dog dog = new Dog();
 
     @Override
@@ -96,7 +95,6 @@ public class Level_1 extends Level{
                     state = 1;
                     updateCooldown = 0;
                 }
-                break;
             case 3:
                 dog.update();
                 updateCooldown += Timer.getDeltaTime();
@@ -111,8 +109,9 @@ public class Level_1 extends Level{
                 if(updateCooldown >= 4000){
                     Game.setExitFlag(true);
                 }
-                break;
         }
+
+        ducksShot = 0;
     }
     @Override
     public void draw() {
@@ -134,7 +133,6 @@ public class Level_1 extends Level{
             HudObjects[i].draw();
         }
 
-        ducksShot = 0;
     }
 
     private void respawnDucks(){

@@ -99,6 +99,7 @@ public class Dog extends GraphicObject{
                     posX = 902;
                     width = 116;
                     height = 160;
+                    targetPos = 760 - this.height;
                     speed = this.height / 500d;
                     updateCooldown = 0;
                     break;
@@ -155,7 +156,7 @@ public class Dog extends GraphicObject{
     }
 
     public boolean isInBackground(){
-        return state > 3 && state != 7;
+        return state > 3;
     }
 
     private void animUpdate(int dT){

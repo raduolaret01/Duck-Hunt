@@ -11,12 +11,16 @@ import static org.lwjgl.opengl.GL33.*;
 public class Game extends ApplicationState {
 
     public static Level currentLevel;
-    private static Level[] levels = new Level[3];
+    private static int currentLevelId;
 
     public static void LoadLevel(int id){
+        currentLevelId = id;
         switch (id){
             case 1:
                 currentLevel = new Level_1();
+                break;
+            case 2:
+                currentLevel = new Level_2();
                 break;
                 //TODO: Implement the rest of the levels
             default:
@@ -30,35 +34,38 @@ public class Game extends ApplicationState {
         exitFlag = flag;
     }
 
+    private Crosshair crosshair;
+
     @Override
     protected void init() {
         window = Application.getWindow();
-        background = TileFactory.MakeBGTile(1);
+        background = TileFactory.MakeBGTile(currentLevelId);
 
         exitFlag = false;
 
-        //currentLevel = new Level_1();
-
-
+        crosshair = new Crosshair();
 
         //Mouse callback to shoot on click
-        glfwSetMouseButtonCallback(window, (window, button, action, mods) ->{
-            if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS){
-                currentLevel.killAround(pointer.posX + 25, pointer.posY + 25);
-            }
-        });
+        if(currentLevelId == 2) {
+            glfwSetMouseButtonCallback(window, (window, button, action, mods) -> {
+                if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+                    currentLevel.killAround(crosshair.posX + 17, crosshair.posY + 17);
+                }
+            });
+        }
+        else {
+            glfwSetMouseButtonCallback(window, (window, button, action, mods) -> {
+                if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+                    currentLevel.killAround(pointer.posX + 25, pointer.posY + 25);
+                }
+            });
+        }
 
         glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
-            if ( key == GLFW_KEY_Q && action == GLFW_RELEASE ) {
+            if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE ) {
                 glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
             }
-//            if(key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE){
-//                pauseFlag = true;
-//            }
-            if ( key == GLFW_KEY_N && action == GLFW_RELEASE ) {
-                exitFlag = true; // Leave global.Game if N is pressed
-                System.out.println("N pressed!");
-            }
+
         });
 
         currentLevel.init();
@@ -71,7 +78,7 @@ public class Game extends ApplicationState {
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE or N keys.
-        while ( !glfwWindowShouldClose(window) && !exitFlag && !Level.GameOver()) {
+        while ( !glfwWindowShouldClose(window) && !exitFlag) {
             Timer.setDeltaTime();
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
@@ -83,7 +90,12 @@ public class Game extends ApplicationState {
             currentLevel.update();
             currentLevel.draw();
 
-            renderContext.DrawObject(pointer);
+            pointer.draw();
+            if(currentLevelId == 2) {
+                crosshair.update();
+                crosshair.draw();
+            }
+
 
             glfwSwapBuffers(window); // swap the color buffers
 

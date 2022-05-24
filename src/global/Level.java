@@ -54,6 +54,7 @@ public abstract class Level {
 
     public static void setGameOver(){
         state = 3;
+        Duck.setRunAway(true);
         updateCooldown = 0;
     }
 

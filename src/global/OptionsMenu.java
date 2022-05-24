@@ -47,7 +47,7 @@ public class OptionsMenu extends Menu{
 
         // Setup key callbacks.
         glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
-            if ( key == GLFW_KEY_Q && action == GLFW_RELEASE ) {
+            if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE ) {
                 glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
             }
         });
