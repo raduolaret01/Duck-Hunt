@@ -1,16 +1,19 @@
 package global;
 
+import global.AppStates.*;
+import global.AppStates.Game.Game;
+import global.AppStates.Menus.*;
+import global.Systems.DataManager;
+import global.Systems.Renderer;
+import global.Systems.Settings;
+import global.Systems.Timer;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
-import org.lwjgl.system.MemoryStack;
-
-import java.nio.IntBuffer;
 
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL33.*;
-import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.*;
 
 //TODO: Implement menus
@@ -32,7 +35,7 @@ public class Application {
         return lastState;
     }
 
-    //global.Settings
+    //global.Systems.Settings
     private static Settings settings;
 
     public static Settings getSettings() {
@@ -43,8 +46,6 @@ public class Application {
     public static void updateSettings(Settings settings) {
         glfwSetWindowSize(window, settings.getResolutionW(), settings.getResolutionH());
         glViewport(0,0, settings.getResolutionW(), settings.getResolutionH());
-        //glfwSetWindowMonitor(window, glfwGetPrimaryMonitor(), 0,0,settings.getResolutionW(), settings.getResolutionH(), 60);
-        //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
         Application.settings = settings;
     }
 
@@ -123,7 +124,6 @@ public class Application {
             pointer.update(xpos, ypos);
         });
 
-
         // Make the OpenGL context current
         glfwMakeContextCurrent(window);
         GL.createCapabilities();
@@ -137,13 +137,6 @@ public class Application {
         glfwShowWindow(window);
         glViewport(0,0, settings.getResolutionW(), settings.getResolutionH());
 
-//        //
-//        glfwSetFramebufferSizeCallback(window, (window, x, y) -> {
-//            glViewport(0,0, x, y);
-//            System.out.println("Framebuffer size: W:" + x + " H:" + y);
-//        });
-
-        //Initialise renderer
         renderContext.init(1920, 1080);
 
         states[0] = new MainMenu();

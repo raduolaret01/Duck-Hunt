@@ -1,6 +1,8 @@
 package global;
 
 
+import global.Systems.Renderer;
+
 public class Cursor extends GraphicObject {
 
     private static Cursor instance = new Cursor();

@@ -1,7 +1,11 @@
 package global;
 
 public abstract class GraphicObject {
-    protected int posX, posY, width, height, texID;
+    public int posX;
+    public int posY;
+    public int width;
+    public int height;
+    public int texID;
 
     GraphicObject(){ };
 
