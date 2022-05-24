@@ -52,6 +52,19 @@ public abstract class Level {
         return 1d + (double)round / 100d;
     }
 
+    public static void setGameOver(){
+        state = 3;
+        updateCooldown = 0;
+    }
+
+    public static boolean GameOver(){
+        return state == 3;
+    }
+
+    public static boolean RoundTransition(){
+        return state == 2;
+    }
+
     public static int advanceRound(){
         ++round;
         if(ducks < 10){

@@ -51,9 +51,13 @@ public class Application {
     public void run() {
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
 
-        init();
-        loop();
-
+        try {
+            init();
+            loop();
+        }
+        finally {
+            DataManager.SaveScores();
+        }
         // Free the window callbacks and destroy the window
         glfwFreeCallbacks(window);
         glfwDestroyWindow(window);
@@ -209,30 +213,6 @@ public class Application {
 //
 //        glClearColor(1f, 1f, 1f, 1.0f);
 //    }
-
-    private void changeState(){
-
-    }
-
-    public static int getWindowHeight(){
-        int h;
-        try(MemoryStack stack = stackPush()){
-            IntBuffer height = stack.mallocInt(1);
-            glfwGetWindowSize(window, null, height);
-            h = height.get(0);
-        }
-        return h;
-    }
-
-    public static int getWindowWidth(){
-        int w;
-        try(MemoryStack stack = stackPush()){
-            IntBuffer width = stack.mallocInt(1);
-            glfwGetWindowSize(window, width, null);
-            w = width.get(0);
-        }
-        return w;
-    }
 
 
     public static void main(String[] args) {

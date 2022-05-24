@@ -59,9 +59,6 @@ public class Game extends ApplicationState {
                 exitFlag = true; // Leave global.Game if N is pressed
                 System.out.println("N pressed!");
             }
-            if ( key == GLFW_KEY_R && action == GLFW_RELEASE ) {
-                Application.updateSettings(new Settings(1280,720,100));
-            }
         });
 
         currentLevel.init();
@@ -74,7 +71,7 @@ public class Game extends ApplicationState {
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE or N keys.
-        while ( !glfwWindowShouldClose(window) && !exitFlag) {
+        while ( !glfwWindowShouldClose(window) && !exitFlag && !Level.GameOver()) {
             Timer.setDeltaTime();
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
@@ -94,7 +91,10 @@ public class Game extends ApplicationState {
             glfwPollEvents();
         }
 
-        //if(DataManager.isNewTopScore(ScoreTab.getScore))
+        if(DataManager.checkScore(ScoreTab.getScore())){
+            NewTopScoreMenu.setScore(ScoreTab.getScore());
+            return 7;
+        }
         return 6;
     }
 

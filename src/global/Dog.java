@@ -93,6 +93,16 @@ public class Dog extends GraphicObject{
                 break;
             case 4:
                 this.width = this.height = 0;
+                if(Level.GameOver()){
+                    currentAnimState = animStates[7];
+                    state = 7;
+                    posX = 902;
+                    width = 116;
+                    height = 160;
+                    speed = this.height / 500d;
+                    updateCooldown = 0;
+                    break;
+                }
                 updateCooldown += dT;
                 if(updateCooldown >= 500 && heldDucks != 0){
                     currentAnimState = animStates[3 + heldDucks];
@@ -101,7 +111,7 @@ public class Dog extends GraphicObject{
                     this.width = 224;
                     this.height = 232; //different size frames
                     targetPos = 760 - this.height;
-                    speed = this.height / 660d;
+                    speed = this.height / 500d;
                     updateCooldown = 0;
                     heldDucks = 0;
                 }
@@ -125,6 +135,12 @@ public class Dog extends GraphicObject{
                 else {
                     state = 4;
                 }
+                break;
+            case 7:
+                if(posY > targetPos){
+                    posY -= speed * dT;
+                }
+                break;
         }
 
     }

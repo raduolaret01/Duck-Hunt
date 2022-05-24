@@ -34,9 +34,12 @@ public class ProgressTab extends GraphicObject {
     @Override
     public void update() {
         timeElapsed += ((float) Timer.getDeltaTime()) / 1000f;
+        if(Level.RoundTransition()){
+            timeElapsed = 0f;
+        }
         //timer reset (game over not implemented)
         if(timeElapsed >= 40f){
-            timeElapsed -= 40f;
+            Level.setGameOver();
         }
         hitDucks += Level.getDucksShot();
         if(hitDucks >= maxDucks){

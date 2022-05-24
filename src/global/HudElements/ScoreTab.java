@@ -5,10 +5,12 @@ public class ScoreTab extends GraphicObject {
 
     public ScoreTab(int x, int y, int w, int h){
         super(44, x, y, w, h);
+        score = 0;
     }
 
     public ScoreTab(int x, int y){
         super(43, x, y, 212, 84);
+        score = 0;
     }
 
     private static int score = 0;

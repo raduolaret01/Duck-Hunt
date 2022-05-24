@@ -28,4 +28,6 @@ public abstract class Enemy extends GraphicObject {
     public int getCenterY(){
         return posY + height / 2;
     }
+
+    public abstract boolean isOffscreen();
 }

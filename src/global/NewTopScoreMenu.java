@@ -25,7 +25,7 @@ public class NewTopScoreMenu extends Menu {
 
         buttons[0] = TileFactory.MakeButton("Yes",870, 720, 180,100);
         background = TileFactory.MakeBGTile((int)(Math.random() * 2d) + 1);
-        title = new Tile(128, 660,80,600,300);
+        title = new Tile(129, 585,140,750,150);
 
         pressedButton = -1;
 
@@ -34,6 +34,10 @@ public class NewTopScoreMenu extends Menu {
             int temp = (score / tens) % 10;
             scoreTiles[i] = TileFactory.MakeSBTile((char)(temp + 48), 852 + 32 * i,488,32,32);
             tens *= 10;
+        }
+
+        for(int i = 0; i < 6; ++i){
+            nameTiles[i] = null;
         }
 
         // Setup key callbacks.
@@ -79,7 +83,9 @@ public class NewTopScoreMenu extends Menu {
 
             for(int i = 0 ; i < 6; ++i){
                 scoreTiles[i].draw();
-                nameTiles[i].draw();
+                if(nameTiles[i] != null) {
+                    nameTiles[i].draw();
+                }
             }
 
             pointer.draw();
@@ -92,7 +98,7 @@ public class NewTopScoreMenu extends Menu {
                 case -1:
                     break;
                 case 0:
-                    //DataManger.addNewScore(new ScoreEntry(name,score);
+                    DataManager.InsertNewScore(new ScoreEntry(name.toString(),score));
                     return 6;
                 default:
                     throw new IllegalStateException("Illegal pressedButton value at NewTopScoreMenu: " + pressedButton);
@@ -107,7 +113,7 @@ public class NewTopScoreMenu extends Menu {
             name.deleteCharAt(i - 1);
             nameTiles[i-1] = null;
         }
-        else if(name.length() < 6){
+        else if(ch >= 65 && ch <= 90 && name.length() < 6){
             name.append((char)ch);
             nameTiles[i] = TileFactory.MakeSBTile((char)(ch + 32),852 + 32 * i,628,32,32 );
         }

@@ -67,7 +67,7 @@ public class ScoreDelConfirmMenu extends Menu {
                 case -1:
                     break;
                 case 0:
-                    //DataManager.deleteScores();
+                    DataManager.DeleteScores();
                     return Application.getLastState();
                 case 1:
                     return Application.getLastState();

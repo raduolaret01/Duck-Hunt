@@ -14,12 +14,16 @@ public class Level_1 extends Level{
     @Override
     public void init() {
 
+        state = 0;
+        round = 0;
         ducks = 3;
 
         enemies = new ArrayList<Enemy>(10);
         for(int i =  0; i < 10; ++i){
             enemies.add(null);
         }
+
+        Duck.setRunAway(false);
 
         HudObjects[0] = new ShotCounter(224,938);
         HudObjects[1] = new ProgressTab(724,938, ducks);
@@ -61,7 +65,7 @@ public class Level_1 extends Level{
                 for (int i = 0; i < ducks; ++i) {
                     if (enemies.get(i) != null) {
                         enemies.get(i).update();
-                        if (enemies.get(i).isDead && enemies.get(i).posY > 840) {
+                        if (enemies.get(i).isDead && enemies.get(i).isOffscreen()) {
                             dog.grabDuckAt(enemies.get(i).posX);
                             enemies.set(i, null);
                         }
@@ -82,6 +86,7 @@ public class Level_1 extends Level{
                 }
                 break;
             case 2:
+                HudObjects[1].update();
                 HudObjects[3].update();
                 dog.update();
                 updateCooldown += Timer.getDeltaTime();
@@ -91,6 +96,21 @@ public class Level_1 extends Level{
                     state = 1;
                     updateCooldown = 0;
                 }
+            case 3:
+                dog.update();
+                updateCooldown += Timer.getDeltaTime();
+                for (int i = 0; i < ducks; ++i) {
+                    if (enemies.get(i) != null) {
+                        enemies.get(i).update();
+                        if (enemies.get(i).isOffscreen()) {
+                            enemies.set(i, null);
+                        }
+                    }
+                }
+                if(updateCooldown >= 8000){
+                    return;
+                }
+
 
         }
     }

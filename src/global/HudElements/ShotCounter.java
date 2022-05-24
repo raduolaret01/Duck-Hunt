@@ -35,8 +35,8 @@ public class ShotCounter extends GraphicObject {
         if(Game.currentLevel.getDucksShot() == 0){
             misses++;
         }
-        if(misses > 3){
-            misses = 0;
+        if(misses >= 3){
+            Level.setGameOver();
         }
         int i = 0;
         while(i < misses){

@@ -50,6 +50,9 @@ public class Duck extends Enemy{
             slope = 0d;
             return;
         }
+        if(runAway){
+            return;
+        }
         speed = (0.25d + Math.random() * 0.25d) * Level.getDifficulty();
         //Quadrants of cartesian coordonate system, centered on duck
         BitSet quadrants = new BitSet(4);
@@ -250,6 +253,17 @@ public class Duck extends Enemy{
         currentAnimState = animStates[3];
         updateCoolDown = 0;
         animUpdate(1000); // Force frame update
+    }
+
+    @Override
+    public boolean isOffscreen() {
+        return posX < -200 || posX > 2120 || posY < -200 || posY > 840;
+    }
+
+    private static boolean runAway;
+
+    public static void setRunAway(boolean flag){
+        runAway = flag;
     }
 
 }
