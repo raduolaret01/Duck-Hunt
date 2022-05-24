@@ -188,25 +188,6 @@ public class Application {
             nextState = 0;
         }
     }
-//
-//    protected void loadGame(){
-//        game.init();
-//        game.loop();
-//
-//        glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
-//            if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE ) {
-//                glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
-//            }
-//            if( key == GLFW_KEY_M && action == GLFW_RELEASE ) {
-//                System.out.println("M pressed!");
-//                loadGame();
-//            }
-//        });
-//        glfwSetMouseButtonCallback(window, null);
-//
-//        glClearColor(1f, 1f, 1f, 1.0f);
-//    }
-
 
     public static void main(String[] args) {
         new Application().run();

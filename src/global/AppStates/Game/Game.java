@@ -2,10 +2,7 @@ package global.AppStates.Game;
 
 import global.*;
 import global.AppStates.ApplicationState;
-import global.AppStates.Game.Level.Crosshair;
-import global.AppStates.Game.Level.Level;
-import global.AppStates.Game.Level.Level_1;
-import global.AppStates.Game.Level.Level_2;
+import global.AppStates.Game.Level.*;
 import global.AppStates.Menus.NewTopScoreMenu;
 import global.AppStates.Game.Level.HudElements.ScoreTab;
 import global.Systems.DataManager;
@@ -29,7 +26,9 @@ public class Game extends ApplicationState {
             case 2:
                 currentLevel = new Level_2();
                 break;
-                //TODO: Implement the rest of the levels
+            case 3:
+                currentLevel = new Level_3();
+                break;
             default:
                 throw new IllegalStateException("Level " + id + " not implemented!");
         }

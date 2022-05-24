@@ -28,7 +28,7 @@ public class Level_2 extends Level{
         Duck.setRunAway(false);
 
         HudObjects[0] = new ShotCounter(224,938);
-        HudObjects[1] = new ProgressTab(724,938, ducks);
+        HudObjects[1] = new ProgressTab(724,938, ducks, "Duck");
         HudObjects[2] = new ScoreTab(1514,938);
         HudObjects[3] = new RoundCounter(224,838);
         HudObjects[4] = new Tile(65,0,716,1920,368);
@@ -112,6 +112,9 @@ public class Level_2 extends Level{
                 if(updateCooldown >= 4000){
                     Game.setExitFlag(true);
                 }
+                break;
+            default:
+                throw new IllegalStateException("Invalid state value at Level_2: " + state);
         }
 
         ducksShot = 0;
