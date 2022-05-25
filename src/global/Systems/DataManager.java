@@ -94,7 +94,7 @@ public class DataManager {
             return true;
         }
         else {
-            for(lastCheckIndex = numberOfScoreEntries - 1; lastCheckIndex >= 0 && score < scoreList.get(lastCheckIndex).score; --lastCheckIndex);
+            for(lastCheckIndex = numberOfScoreEntries - 1; lastCheckIndex >= 0 && score <= scoreList.get(lastCheckIndex).score; --lastCheckIndex);
             return lastCheckIndex >= 0;
         }
     }

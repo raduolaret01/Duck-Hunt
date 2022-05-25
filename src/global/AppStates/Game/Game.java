@@ -20,19 +20,7 @@ public class Game extends ApplicationState {
 
     public static void LoadLevel(int id) throws MyException {
         currentLevelId = id;
-        switch (id){
-            case 1:
-                currentLevel = new Level_1();
-                break;
-            case 2:
-                currentLevel = new Level_2();
-                break;
-            case 3:
-                currentLevel = new Level_3();
-                break;
-            default:
-                throw new MyException("Level " + id + " not implemented!");
-        }
+
     }
 
     private static boolean exitFlag;
@@ -51,6 +39,20 @@ public class Game extends ApplicationState {
         exitFlag = false;
 
         crosshair = new Crosshair();
+
+        switch (currentLevelId){
+            case 1:
+                currentLevel = new Level_1();
+                break;
+            case 2:
+                currentLevel = new Level_2();
+                break;
+            case 3:
+                currentLevel = new Level_3();
+                break;
+            default:
+                throw new MyException("Level " + currentLevelId + " not implemented!");
+        }
 
         //Mouse callback to shoot on click
         if(currentLevelId == 2) {

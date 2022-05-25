@@ -72,7 +72,7 @@ public class GameOverMenu extends Menu {
                 case -1:
                     break;
                 case 0:
-                    return Application.getLastState();
+                    return 1;
                 case 1:
                     return 0;
                 case 2:
