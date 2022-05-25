@@ -3,6 +3,7 @@ package global.AppStates.Menus;
 import global.*;
 import global.Systems.DataManager;
 import global.Systems.DataStructures.ScoreEntry;
+import global.Systems.MyException;
 import global.Systems.TileFactory;
 import global.Systems.Timer;
 
@@ -49,7 +50,7 @@ public class LeaderboardMenu extends Menu {
     }
 
     @Override
-    public int loop() {
+    public int loop() throws MyException {
         // Set the clear color
         glClearColor(1f, 1f, 1f, 1.0f);
 
@@ -86,7 +87,7 @@ public class LeaderboardMenu extends Menu {
                 case 0:
                     return Application.getLastState();
                 default:
-                    throw new IllegalStateException("Illegal pressedButton value at NewTopScoreMenu: " + pressedButton);
+                    throw new MyException("Illegal pressedButton value at NewTopScoreMenu: " + pressedButton);
             }
         }
         return 0;

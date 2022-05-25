@@ -112,7 +112,7 @@ public class Renderer {
             vertices[j+3] = texC[i+1];
         }
 
-        //Buffer Data Streaming through re-specification (planned) (MAYBE) (HIGHLY UNLIKELY)
+        //Buffer Data Streaming through re-specification (planned) (MAYBE) (HIGHLY UNLIKELY) (abandoned idea)
         glBufferData(GL_ARRAY_BUFFER, vertices, GL_DYNAMIC_DRAW);
 
         glBindVertexArray(VAO);

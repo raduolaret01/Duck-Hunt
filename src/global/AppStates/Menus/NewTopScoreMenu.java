@@ -3,6 +3,7 @@ package global.AppStates.Menus;
 import global.*;
 import global.Systems.DataManager;
 import global.Systems.DataStructures.ScoreEntry;
+import global.Systems.MyException;
 import global.Systems.TileFactory;
 import global.Systems.Timer;
 
@@ -71,7 +72,7 @@ public class NewTopScoreMenu extends Menu {
     }
 
     @Override
-    public int loop() {
+    public int loop() throws MyException {
         // Set the clear color
         glClearColor(1f, 1f, 1f, 1.0f);
 
@@ -106,7 +107,7 @@ public class NewTopScoreMenu extends Menu {
                     DataManager.InsertNewScore(new ScoreEntry(name.toString(),score));
                     return 6;
                 default:
-                    throw new IllegalStateException("Illegal pressedButton value at NewTopScoreMenu: " + pressedButton);
+                    throw new MyException("Illegal pressedButton value at NewTopScoreMenu: " + pressedButton);
             }
         }
         return 0;

@@ -1,6 +1,7 @@
 package global.AppStates.Menus;
 
 import global.*;
+import global.Systems.MyException;
 import global.Systems.Settings;
 import global.Systems.TileFactory;
 import global.Systems.Timer;
@@ -54,7 +55,7 @@ public class ResolutionConfirmMenu extends Menu {
     }
 
     @Override
-    public int loop() {// Set the clear color
+    public int loop() throws MyException {// Set the clear color
         glClearColor(1f, 1f, 1f, 1.0f);
 
         // Run the rendering loop until the user has attempted to close
@@ -85,7 +86,7 @@ public class ResolutionConfirmMenu extends Menu {
                     Application.updateSettings(oldSettings);
                     return Application.getLastState();
                 default:
-                    throw new IllegalStateException("Illegal pressedButton value at ResConfirmMenu: " + pressedButton);
+                    throw new MyException("Illegal pressedButton value at ResConfirmMenu: " + pressedButton);
             }
         }
         return 0;

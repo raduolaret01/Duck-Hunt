@@ -1,6 +1,7 @@
 package global.AppStates.Menus;
 
 import global.*;
+import global.Systems.MyException;
 import global.Systems.Settings;
 import global.Systems.TileFactory;
 import global.Systems.Timer;
@@ -17,7 +18,7 @@ public class OptionsMenu extends Menu{
     private Tile[] volumeDisplay = new Tile[3];
 
     @Override
-    public void init() {
+    public void init() throws MyException {
 
         tempSettings = new Settings(Application.getSettings());
 
@@ -32,7 +33,7 @@ public class OptionsMenu extends Menu{
                 resoulutionOpt = 3;
                 break;
             default:
-                throw new IllegalStateException("Unimplemented resolution detected in options menu!");
+                throw new MyException("Unimplemented resolution detected in options menu!");
         }
         resChanged = false;
 
@@ -71,7 +72,7 @@ public class OptionsMenu extends Menu{
     }
 
     @Override
-    public int loop() {
+    public int loop() throws MyException {
         // Set the clear color
         glClearColor(1f, 1f, 1f, 1.0f);
 
@@ -118,7 +119,7 @@ public class OptionsMenu extends Menu{
                             tempSettings.setResolution(848,480);
                             break;
                         default:
-                            throw new IllegalStateException("???????how???????" + resoulutionOpt);
+                            throw new MyException("???????how???????" + resoulutionOpt);
                     }
                     break;
                 case 1:
@@ -140,7 +141,7 @@ public class OptionsMenu extends Menu{
                     Application.updateSettings(tempSettings);
                     return Application.getLastState();
                 default:
-                    throw new IllegalStateException("Illegal pressedButton value at OptionMenu: " + pressedButton);
+                    throw new MyException("Illegal pressedButton value at OptionMenu: " + pressedButton);
             }
             pressedButton = -1;
         }

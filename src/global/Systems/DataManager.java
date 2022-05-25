@@ -1,5 +1,6 @@
 package global.Systems;
 
+import global.Application;
 import global.Systems.DataStructures.ScoreEntry;
 import global.Systems.DataStructures.Texture;
 
@@ -126,7 +127,7 @@ public class DataManager {
             s = c.createStatement();
             s.execute("DELETE FROM TopScores");
             for(int i = 0; i < numberOfScoreEntries; ++i){
-                s.execute("INSERT INTO TopScores " +
+                s.execute("INSERT INTO TopScores (Name, Score) " +
                         "VALUES ('" + scoreList.get(i).name + "', '" + scoreList.get(i).score + "');");
                 System.out.println("Inserted " + scoreList.get(i).name + ", " + scoreList.get(i).score);
             }
@@ -135,7 +136,64 @@ public class DataManager {
             c.close();
         }
         catch (Exception e) {
-            System.err.println(e.getClass().getName() + ":" + e.getMessage());
+            System.err.println(e.getClass().getName() + " at SaveScores :" + e.getMessage());
+            System.exit(1);
+        }
+    }
+
+    public static Settings LoadSetttings(){
+        Connection c = null;
+        Statement s = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:rsc/database/database.db");
+            c.setAutoCommit(false);
+            s = c.createStatement();
+            ResultSet select = s.executeQuery("SELECT * FROM Settings");
+            if(!select.next()){
+                System.out.println("Failed to load settings!");
+                select.close();
+                s.close();
+                c.close();
+                return new Settings(1920,1080,100);
+            }
+            int resW = select.getInt(1), resH = select.getInt(2), vol = select.getInt(3);
+            if(((resW == 1920 && resH == 1080) || (resW == 1280 && resH == 720) || (resW == 848 && resH == 480))&& (vol >=0 && vol <= 100)){
+                select.close();
+                s.close();
+                c.close();
+                return new Settings(resW, resH, vol);
+            }
+            select.close();
+            s.close();
+            c.close();
+        }
+        catch (Exception e) {
+            System.err.println(e.getClass().getName() + " at GetSettings:" + e.getMessage());
+            System.exit(1);
+        }
+        return new Settings(1920,1080,100);
+    }
+
+    public static void SaveSettings(){
+        Settings temp = Application.getSettings();
+        Connection c = null;
+        Statement s = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:rsc/database/database.db");
+            c.setAutoCommit(false);
+            s = c.createStatement();
+            s.execute("DELETE FROM Settings");
+                s.execute("INSERT INTO Settings " +
+                        "VALUES ('" + temp.getResolutionW() + "', '" + temp.getResolutionH() + "', '" + temp.getVolume() + "');");
+                System.out.println("Inserted " + temp.getResolutionW() + ", " + temp.getResolutionH() + ", " + temp.getVolume());
+            c.commit();
+            s.close();
+            c.close();
+        }
+        catch (Exception e) {
+            System.err.println(e.getClass().getName() + " at SaveSettings:" + e.getMessage());
             System.exit(1);
         }
     }

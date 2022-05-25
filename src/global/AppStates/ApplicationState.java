@@ -1,7 +1,7 @@
 package global.AppStates;
 
 import global.Cursor;
-import global.Systems.Renderer;
+import global.Systems.MyException;
 import global.Tile;
 
 public abstract class ApplicationState {
@@ -11,6 +11,6 @@ public abstract class ApplicationState {
     protected Cursor pointer = Cursor.getInstance();
     protected Tile background;
 
-    public abstract void init();
-    public abstract int loop();
+    public abstract void init() throws MyException;
+    public abstract int loop() throws MyException;
 }

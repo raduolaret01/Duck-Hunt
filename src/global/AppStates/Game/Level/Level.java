@@ -1,6 +1,7 @@
 package global.AppStates.Game.Level;
 
 import global.GraphicObject;
+import global.Systems.MyException;
 
 import java.util.ArrayList;
 
@@ -10,19 +11,19 @@ public abstract class Level {
     /** 0 = Shots, 1 = Round Progress, 2 = Score, 3 = Round number, 4 = GrassTile(for now) */
     protected GraphicObject[] HudObjects = new GraphicObject[5];
 
-    public abstract void init();
+    public abstract void init() throws MyException;
 
     /**Checks for 'enemies' around cursor (level 1) or target (levels 2 and 3) and calls their "kill" function*/
-    public abstract void killAround(int x, int y);
+    public abstract void killAround(int x, int y) throws MyException;
 
-    public abstract void update();
+    public abstract void update() throws MyException;
 
     public abstract void draw();
 
-    public void updateScore(){
+    public void updateScore() throws MyException {
         HudObjects[2].update();
     }
-    public void updateMisses(){
+    public void updateMisses() throws MyException {
         HudObjects[0].update();
     }
 

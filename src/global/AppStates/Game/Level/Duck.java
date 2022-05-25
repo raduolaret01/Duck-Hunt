@@ -1,6 +1,7 @@
 package global.AppStates.Game.Level;
 
 import global.Systems.DataStructures.AnimationState;
+import global.Systems.MyException;
 import global.Systems.Renderer;
 import global.Systems.Timer;
 
@@ -43,8 +44,7 @@ public class Duck extends Enemy{
         Renderer.getInstance().DrawObjectFlip(this, flip);
     }
 
-    @Override
-    protected void updateMovement(){
+    private void updateMovement() throws MyException {
         updateCoolDown = 0;
         currentAnimState.reset();
         if(isDead){
@@ -94,7 +94,7 @@ public class Duck extends Enemy{
 
         switch (q) {
             case -1:
-                throw new IllegalStateException("global.AppStates.Game.Level.Duck movement update failed! No available direction found!");
+                throw new MyException("global.AppStates.Game.Level.Duck movement update failed! No available direction found!");
             case 0:
                 if (quadrants.get(1)){          // Left
                     direction = 0;
@@ -184,11 +184,11 @@ public class Duck extends Enemy{
                 }
                 break;
             default:
-                throw new IllegalStateException("global.AppStates.Game.Level.Duck movement update failed! Invalid direction found!");
+                throw new MyException("global.AppStates.Game.Level.Duck movement update failed! Invalid direction found!");
         }
     }
 
-    public void update(){
+    public void update() throws MyException {
         int dT = Timer.getDeltaTime();
         animUpdate(dT);
         /**
@@ -217,7 +217,7 @@ public class Duck extends Enemy{
                 posX += dPos2; // x += slope * dy
                 break;
             default:
-                throw new IllegalStateException("Invalid duck movement direction!");
+                throw new MyException("Invalid duck movement direction!");
         }
         if(isDead){
             if(updateCoolDown >= 1000){

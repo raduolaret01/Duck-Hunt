@@ -1,6 +1,7 @@
 package global.AppStates.Game.Level;
 
 import global.GraphicObject;
+import global.Systems.MyException;
 
 public abstract class Enemy extends GraphicObject {
 
@@ -18,8 +19,6 @@ public abstract class Enemy extends GraphicObject {
     protected double speed;
     protected int updateCoolDown;
     protected boolean isDead = false;
-
-    protected abstract void updateMovement();
 
     public abstract void kill();
 

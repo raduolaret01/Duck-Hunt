@@ -1,5 +1,6 @@
 package global.AppStates.Game.Level;
 
+import global.Systems.MyException;
 import global.Systems.Renderer;
 import global.Systems.Timer;
 
@@ -18,16 +19,7 @@ public class Disk extends Enemy{
         slope = 1.732d + Math.random() * 2d; //3.7320 - 1.732
         //slope/=2;
         dZ = 0.02d;
-        speed = (0.08d + Math.random() * 0.005d) * Level.getDifficulty();
-    }
-
-    @Override
-    protected void updateMovement() {
-        int dT = Timer.getDeltaTime();
-        slope -= dT * dSlope;
-        posZ += dT * dZ;
-        this.width = (int) (96d * (100d - posZ)/100d);
-        this.height = (int) (64d * (100d - posZ)/100d);
+        speed = (0.135d + Math.random() * 0.025d) * Level.getDifficulty();
     }
 
     @Override
@@ -46,7 +38,7 @@ public class Disk extends Enemy{
     }
 
     @Override
-    public void update() {
+    public void update() throws MyException {
         int dT = Timer.getDeltaTime();
         int dPos1 = (int)(speed * dT), dPos2 = (int)(dPos1 * -slope);
         //System.out.println(slope);
@@ -60,8 +52,11 @@ public class Disk extends Enemy{
                 posY += dPos2; // y += slope * dx
                 break;
             default:
-                throw new IllegalStateException("Invalid Disk movement direction: " + direction);
+                throw new MyException("Invalid Disk movement direction: " + direction);
         }
-        updateMovement();
+        slope -= dT * dSlope;
+        posZ += dT * dZ;
+        this.width = (int) (96d * (100d - posZ)/100d);
+        this.height = (int) (64d * (100d - posZ)/100d);
     }
 }

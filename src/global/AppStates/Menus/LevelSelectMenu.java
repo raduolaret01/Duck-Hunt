@@ -2,6 +2,7 @@ package global.AppStates.Menus;
 
 import global.*;
 import global.AppStates.Game.Game;
+import global.Systems.MyException;
 import global.Systems.TileFactory;
 import global.Systems.Timer;
 
@@ -47,7 +48,7 @@ public class LevelSelectMenu extends Menu {
     }
 
     @Override
-    public int loop() {
+    public int loop() throws MyException {
         // Set the clear color
         glClearColor(1f, 1f, 1f, 1.0f);
 
@@ -81,7 +82,7 @@ public class LevelSelectMenu extends Menu {
                 case 3:
                     return Application.getLastState();
                 default:
-                    throw new IllegalStateException("Illegal pressedButton value at LevelSelectMenu: " + pressedButton);
+                    throw new MyException("Illegal pressedButton value at LevelSelectMenu: " + pressedButton);
             }
         }
         return 0;

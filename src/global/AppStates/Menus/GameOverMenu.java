@@ -1,6 +1,7 @@
 package global.AppStates.Menus;
 
 import global.*;
+import global.Systems.MyException;
 import global.Systems.TileFactory;
 import global.Systems.Timer;
 
@@ -44,7 +45,7 @@ public class GameOverMenu extends Menu {
     }
 
     @Override
-    public int loop() {
+    public int loop() throws MyException {
         // Set the clear color
         glClearColor(1f, 1f, 1f, 1.0f);
 
@@ -77,7 +78,7 @@ public class GameOverMenu extends Menu {
                 case 2:
                     return 8;
                 default:
-                    throw new IllegalStateException("Illegal pressedButton value at GameOverMenu: " + pressedButton);
+                    throw new MyException("Illegal pressedButton value at GameOverMenu: " + pressedButton);
             }
         }
         return 0;

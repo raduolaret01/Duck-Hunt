@@ -5,6 +5,7 @@ import global.AppStates.Game.Level.HudElements.ProgressTab;
 import global.AppStates.Game.Level.HudElements.RoundCounter;
 import global.AppStates.Game.Level.HudElements.ScoreTab;
 import global.AppStates.Game.Level.HudElements.ShotCounter;
+import global.Systems.MyException;
 import global.Systems.Timer;
 import global.Tile;
 
@@ -15,11 +16,12 @@ public class Level_3 extends Level{
     private int disksPerVolley = 1;
 
     @Override
-    public void init() {
+    public void init() throws MyException {
 
         state = 0;
         round = 0;
-        ducks = 3;
+        ducks = 10;
+        disksPerVolley = 1;
 
         enemies = new ArrayList<Enemy>(4);
         for(int i =  0; i < 4; ++i){
@@ -40,7 +42,7 @@ public class Level_3 extends Level{
     }
 
     @Override
-    public void killAround(int x, int y) {
+    public void killAround(int x, int y) throws MyException {
             for(Enemy ducky : enemies){
                 if(ducky!=null && !ducky.isDead && Math.abs(ducky.getCenterX() - x) <= 77 && Math.abs(ducky.getCenterY() - y) <= 77){
                     ducky.kill();
@@ -52,7 +54,7 @@ public class Level_3 extends Level{
     }
 
     @Override
-    public void update() {
+    public void update() throws MyException {
         switch (state){
             case 0:
                 for(int i = 0; i < disksPerVolley; ++i){
@@ -104,7 +106,7 @@ public class Level_3 extends Level{
                 }
                 break;
             default:
-                throw new IllegalStateException("Invalid state value at Level_3: " + state);
+                throw new MyException("Invalid state value at Level_3: " + state);
         }
     }
 

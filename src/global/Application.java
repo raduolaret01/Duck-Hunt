@@ -3,10 +3,7 @@ package global;
 import global.AppStates.*;
 import global.AppStates.Game.Game;
 import global.AppStates.Menus.*;
-import global.Systems.DataManager;
-import global.Systems.Renderer;
-import global.Systems.Settings;
-import global.Systems.Timer;
+import global.Systems.*;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
@@ -15,8 +12,6 @@ import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL33.*;
 import static org.lwjgl.system.MemoryUtil.*;
-
-//TODO: Implement menus
 
 public class Application {
 
@@ -56,8 +51,12 @@ public class Application {
             init();
             loop();
         }
+        catch (Exception e){
+            System.err.println(e.getMessage());
+        }
         finally {
             DataManager.SaveScores();
+            DataManager.SaveSettings();
         }
         // Free the window callbacks and destroy the window
         glfwFreeCallbacks(window);
@@ -68,14 +67,14 @@ public class Application {
         glfwSetErrorCallback(null).free();
     }
 
-    private void init() {
+    private void init() throws MyException {
         // Setup an error callback. The default implementation
         // will print the error message in System.err.
         GLFWErrorCallback.createPrint(System.err).set();
 
         // Initialize GLFW. Most GLFW functions will not work before doing this.
         if ( !glfwInit() )
-            throw new IllegalStateException("Unable to initialize GLFW");
+            throw new MyException("Unable to initialize GLFW");
 
 
         // Configure GLFW
@@ -98,7 +97,7 @@ public class Application {
 
         //Default setting for now
         //settings = new Settings(vidmode.width(), vidmode.height(),100);
-        settings = new Settings(1920,1080,100);
+        settings = DataManager.LoadSetttings();
 
         // Create the window
         window = glfwCreateWindow(settings.getResolutionW(), settings.getResolutionH(), "Hello World!", glfwGetPrimaryMonitor(), NULL);
@@ -154,7 +153,7 @@ public class Application {
         Timer.startTime();
     }
 
-    private void loop() {
+    private void loop() throws MyException {
         // Set the clear color
         glClearColor(1f, 1f, 1f, 1.0f);
 

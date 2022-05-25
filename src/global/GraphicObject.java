@@ -1,5 +1,7 @@
 package global;
 
+import global.Systems.MyException;
+
 public abstract class GraphicObject {
     public int posX;
     public int posY;
@@ -19,5 +21,5 @@ public abstract class GraphicObject {
 
     public abstract void draw();
 
-    public abstract void update();
+    public abstract void update() throws MyException;
 }

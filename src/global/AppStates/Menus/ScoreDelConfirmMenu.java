@@ -2,6 +2,7 @@ package global.AppStates.Menus;
 
 import global.*;
 import global.Systems.DataManager;
+import global.Systems.MyException;
 import global.Systems.TileFactory;
 import global.Systems.Timer;
 
@@ -45,7 +46,7 @@ public class ScoreDelConfirmMenu extends Menu {
         }
 
     @Override
-    public int loop() {
+    public int loop() throws MyException {
         glClearColor(1f, 1f, 1f, 1.0f);
 
         // Run the rendering loop until the user has attempted to close
@@ -76,7 +77,7 @@ public class ScoreDelConfirmMenu extends Menu {
                 case 1:
                     return Application.getLastState();
                 default:
-                    throw new IllegalStateException("Illegal pressedButton value at ScoreDelConfirmMenu: " + pressedButton);
+                    throw new MyException("Illegal pressedButton value at ScoreDelConfirmMenu: " + pressedButton);
             }
         }
         return 0;

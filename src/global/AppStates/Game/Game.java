@@ -6,6 +6,7 @@ import global.AppStates.Game.Level.*;
 import global.AppStates.Menus.NewTopScoreMenu;
 import global.AppStates.Game.Level.HudElements.ScoreTab;
 import global.Systems.DataManager;
+import global.Systems.MyException;
 import global.Systems.TileFactory;
 import global.Systems.Timer;
 
@@ -17,7 +18,7 @@ public class Game extends ApplicationState {
     public static Level currentLevel;
     private static int currentLevelId;
 
-    public static void LoadLevel(int id){
+    public static void LoadLevel(int id) throws MyException {
         currentLevelId = id;
         switch (id){
             case 1:
@@ -30,7 +31,7 @@ public class Game extends ApplicationState {
                 currentLevel = new Level_3();
                 break;
             default:
-                throw new IllegalStateException("Level " + id + " not implemented!");
+                throw new MyException("Level " + id + " not implemented!");
         }
     }
 
@@ -43,7 +44,7 @@ public class Game extends ApplicationState {
     private Crosshair crosshair;
 
     @Override
-    public void init() {
+    public void init() throws MyException {
         window = Application.getWindow();
         background = TileFactory.MakeBGTile(currentLevelId);
 
@@ -55,14 +56,22 @@ public class Game extends ApplicationState {
         if(currentLevelId == 2) {
             glfwSetMouseButtonCallback(window, (window, button, action, mods) -> {
                 if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
-                    currentLevel.killAround(crosshair.posX + 17, crosshair.posY + 17);
+                    try {
+                        currentLevel.killAround(crosshair.posX + 17, crosshair.posY + 17);
+                    } catch (MyException e) {
+                        System.err.println(e.getMessage());
+                    }
                 }
             });
         }
         else {
             glfwSetMouseButtonCallback(window, (window, button, action, mods) -> {
                 if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
-                    currentLevel.killAround(pointer.posX + 25, pointer.posY + 25);
+                    try {
+                        currentLevel.killAround(pointer.posX + 25, pointer.posY + 25);
+                    } catch (MyException e) {
+                        System.err.println(e.getMessage());
+                    }
                 }
             });
         }
@@ -78,7 +87,7 @@ public class Game extends ApplicationState {
     }
 
     @Override
-    public int loop() {
+    public int loop() throws MyException {
         // Set the clear color
         glClearColor(0.2f, 0.5f, 0.2f, 1.0f);
 

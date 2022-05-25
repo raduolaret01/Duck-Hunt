@@ -6,6 +6,7 @@ import global.AppStates.Game.Level.HudElements.ProgressTab;
 import global.AppStates.Game.Level.HudElements.RoundCounter;
 import global.AppStates.Game.Level.HudElements.ScoreTab;
 import global.AppStates.Game.Level.HudElements.ShotCounter;
+import global.Systems.MyException;
 import global.Systems.Timer;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ public class Level_2 extends Level{
     private Dog dog = new Dog();
 
     @Override
-    public void init() {
+    public void init() throws MyException {
 
         state = 0;
         round = 0;
@@ -40,7 +41,7 @@ public class Level_2 extends Level{
     }
 
     @Override
-    public void killAround(int x, int y) {
+    public void killAround(int x, int y) throws MyException {
         for(Enemy ducky : enemies){
             if(ducky!=null && !ducky.isDead && Math.abs(ducky.getCenterX() - x) <= 77 && Math.abs(ducky.getCenterY() - y) <= 77){
                 ducky.kill();
@@ -52,7 +53,7 @@ public class Level_2 extends Level{
     }
 
     @Override
-    public void update() {
+    public void update() throws MyException {
         switch (state) {
             case 0:
                 dog.update();
@@ -114,7 +115,7 @@ public class Level_2 extends Level{
                 }
                 break;
             default:
-                throw new IllegalStateException("Invalid state value at Level_2: " + state);
+                throw new MyException("Invalid state value at Level_2: " + state);
         }
 
         ducksShot = 0;
