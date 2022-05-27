@@ -100,7 +100,7 @@ public class Application {
         settings = DataManager.LoadSetttings();
 
         // Create the window
-        window = glfwCreateWindow(settings.getResolutionW(), settings.getResolutionH(), "Hello World!", NULL, NULL);
+        window = glfwCreateWindow(settings.getResolutionW(), settings.getResolutionH(), "Hello World!", glfwGetPrimaryMonitor(), NULL);
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 
