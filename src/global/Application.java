@@ -100,7 +100,7 @@ public class Application {
         settings = DataManager.LoadSetttings();
 
         // Create the window
-        window = glfwCreateWindow(settings.getResolutionW(), settings.getResolutionH(), "Hello World!", glfwGetPrimaryMonitor(), NULL);
+        window = glfwCreateWindow(settings.getResolutionW(), settings.getResolutionH(), "Hello World!", NULL, NULL);
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 
@@ -149,6 +149,7 @@ public class Application {
         states[8] = new LeaderboardMenu();
         currentState = 0;
 
+        updateSettings(settings);
         DataManager.Init();
         Timer.startTime();
     }
